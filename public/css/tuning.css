@@ -1,0 +1,16 @@
+.navbar {
+  background-image: -webkit-linear-gradient(top, rgb(67, 135, 253), rgb(70, 131, 234));
+  display: block;
+  color: white !important;
+  padding-right: 30px;
+}
+
+.navbar a {
+  color: white !important;
+  text-decoration: none;
+}
+
+.quickstatus {
+  padding: 5px;
+  text-align: center;
+}
