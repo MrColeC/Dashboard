@@ -1,16 +1,52 @@
+/* All */
+body {
+  font-family: 'Slabo 13px', serif;
+  font-size: 13px;
+  overflow-x: hidden;
+}
+
+/* Navbar */
 .navbar {
   background-image: -webkit-linear-gradient(top, rgb(67, 135, 253), rgb(70, 131, 234));
   display: block;
   color: white !important;
   padding-right: 30px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
 }
-
+.navbar-brand {
+  font-size: 30px;
+}
 .navbar a {
   color: white !important;
   text-decoration: none;
 }
 
+/* Quick status section */
 .quickstatus {
-  padding: 5px;
+  padding: 5px 15px 5px 15px;
   text-align: center;
+}
+
+/* Main Table */
+#mainTable th {
+  font-family: 'Slabo 27px', serif;
+  font-size: 20px;
+}
+/* Table sorting CSS */
+th.header {
+  background-image: url(/img/sort-up-down.gif);
+  /*background-color: #3399FF;*/
+  background-repeat: no-repeat;
+  background-position: 100% 75%;
+  background-size: 47px 24px;
+}
+
+/* Donut chart CSS*/
+.legend {
+  font-size: 12px;
+}
+rect {
+  stroke-width: 2;
 }

@@ -3,10 +3,12 @@ doctype html
 html
 block head
   head
-    title= title
+    title= "Project Management Dashboard"
     // css
     link(rel='stylesheet', href='/css/bootstrap-3.3.4.min.css')
     link(rel='stylesheet', href='/css/tuning.css')
+    // Google fonts
+    link(rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300|Slabo+27px|Slabo+13px')
     // favicon
     link(rel="apple-touch-icon", sizes="57x57", href="/favicon/apple-touch-icon-57x57.png")
     link(rel="apple-touch-icon", sizes="60x60", href="/favicon/apple-touch-icon-60x60.png")
@@ -28,7 +30,7 @@ block head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='description', content='RCSB Project Management Dashboard')
+    meta(name='description', content='Project Management Dashboard')
     meta(name='author', content='Cole Christie')
 block body
   body
@@ -40,7 +42,7 @@ block body
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='/') PM Dashboard
+          a.navbar-brand(href='/') #{title}
         .navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
             li
@@ -55,7 +57,7 @@ block body
               a(href='/users') Users
             li
               a(href='/help') Help
-    .container
+    .container-fluid
       block content
       block footer
         footer
