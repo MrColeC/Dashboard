@@ -72,4 +72,25 @@ $(function(){
           .attr('y', legendRectSize - legendSpacing)
           .text(function(d) { return d; });
   }
+
+  // Enable tooltips
+  var tooltip = d3.select('#pieSummaryLeader').append('div').attr('class', 'd3tooltip');
+  tooltip.append('div').attr('class', 'tip-main');
+  tooltip.append('div').attr('class', 'tip-count');
+  tooltip.append('div').attr('class', 'tip-percent');
+  // Mouse in/over
+  path.on('mouseover', function(d) {
+    var total = d3.sum(dataset.map(function(d) {
+      return d.count;
+    }));
+    var percent = Math.round(1000 * d.data.count / total) / 10;
+    tooltip.select('.tip-main').html(d.data.label);
+    tooltip.select('.tip-count').html(d.data.count + " projects");
+    tooltip.select('.tip-percent').html(percent + "% of all projects" );
+    tooltip.style('display', 'block');
+  });
+  // Mouse out
+  path.on('mouseout', function() {
+    tooltip.style('display', 'none');
+  });
 });

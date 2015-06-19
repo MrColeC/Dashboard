@@ -7,7 +7,7 @@ body {
 
 /* Navbar */
 .navbar {
-  background-image: -webkit-linear-gradient(top, rgb(67, 135, 253), rgb(70, 131, 234));
+  background-color: #325880;
   display: block;
   color: white !important;
   padding-right: 30px;
@@ -38,7 +38,6 @@ body {
 /* Table sorting CSS */
 th.header {
   background-image: url(/img/sort-up-down.gif);
-  /*background-color: #3399FF;*/
   background-repeat: no-repeat;
   background-position: 100% 75%;
   background-size: 47px 24px;
@@ -50,4 +49,29 @@ th.header {
 }
 rect {
   stroke-width: 2;
+}
+.d3tooltip {
+  display: none;
+  background-color: white;
+  box-shadow: 0 0 5px #999999;
+  font-size: 12px;
+  left: 33%;
+  right: 33%;
+  top: 40%;
+  position: absolute;
+  text-align: center;
+  z-index: 10;
+  color: #325880;
+}
+.charts {
+  position: relative;
+}
+.tip-main {
+  font-size: 14px;
+}
+.tip-count {
+  font-size: 12px;
+}
+.tip-percent {
+  font-size: 12px;
 }
