@@ -29,7 +29,8 @@ $(function(){
   });
 
   // Config
-  var width = 500;
+  var width = document.getElementById("pieSummaryDate").offsetWidth;
+  console.log("Summary charts will be " + width + "px wide");
   var height = 300;
   var radius = Math.min(width, height) / 2;
   var donutWidth = 75;
@@ -44,25 +45,27 @@ $(function(){
   var path = svg.selectAll('path').data(pie(dataset)).enter().append('path').attr('d', arc).attr('fill', function(d, i) {return color(d.data.label);});
 
   //  Build a legend
-  var legend = svg.selectAll('.legend')
-  .data(color.domain())
-  .enter()
-  .append('g')
-  .attr('class', 'legend')
-  .attr('transform', function(d, i) {
-    var height = legendRectSize + legendSpacing;
-    var offset =  height * color.domain().length / 2;
-    var horz = -2 * legendRectSize;
-    var vert = i * height - offset;
-    return 'translate(' + (horz - 190) + ',' + vert + ')';
-  });
-  legend.append('rect')
-    .attr('width', legendRectSize)
-    .attr('height', legendRectSize)
-    .style('fill', color)
-    .style('stroke', color);
-  legend.append('text')
-        .attr('x', legendRectSize + legendSpacing)
-        .attr('y', legendRectSize - legendSpacing)
-        .text(function(d) { return d; });
+  if (width >= 500) {
+    var legend = svg.selectAll('.legend')
+    .data(color.domain())
+    .enter()
+    .append('g')
+    .attr('class', 'legend')
+    .attr('transform', function(d, i) {
+      var height = legendRectSize + legendSpacing;
+      var offset =  height * color.domain().length / 2;
+      var horz = -2 * legendRectSize;
+      var vert = i * height - offset;
+      return 'translate(' + (horz + 190) + ',' + vert + ')';
+    });
+    legend.append('rect')
+      .attr('width', legendRectSize)
+      .attr('height', legendRectSize)
+      .style('fill', color)
+      .style('stroke', color);
+    legend.append('text')
+          .attr('x', legendRectSize + legendSpacing)
+          .attr('y', legendRectSize - legendSpacing)
+          .text(function(d) { return d; });
+  }
 });
