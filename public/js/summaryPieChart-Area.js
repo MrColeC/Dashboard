@@ -2,34 +2,51 @@
 $(function(){
   // Data
   // Collect data from DOM
-  var rawCountDate = [];
+  var rawCountForChart = [];
   $(".project-area").each(function(index, item){
-    rawCountDate.push(item.innerHTML.toUpperCase());
+    rawCountForChart.push(item.innerHTML);
   });
   // Sort and count occurances, marshal the data to be used in a chart
-  rawCountDate.sort();
-  if (rawCountDate.length == 0) {
+  rawCountForChart.sort();
+  if (rawCountForChart.length == 0) {
     // No data to process, abort all subsequent steps
+    console.log("No data to display - Area chart will not be loaded");
     return;
   }
-  var last = rawCountDate[0];
+  var last = "start";
   var count = 0;
   var dataset = [];
-  $.each(rawCountDate, function(current){
-    if (last == rawCountDate[current]) {
+  $.each(rawCountForChart, function(current){
+    if ((last == "start") && (count == 0)) {
+      // Handle the start case
+      last = rawCountForChart[current];
+      count++;
+    } else if (last == rawCountForChart[current]) {
+      // Item is the same, keep counting
       count++;
     } else {
+      // Item changed, load to array and start counting the new item
       var toLoad = {};
       toLoad.label = last;
       toLoad.count = count;
       dataset.push(toLoad);
-      last = rawCountDate[current];
-      count = 0;
+      last = rawCountForChart[current];
+      count = 1;
     }
   });
+  // Push onto the array whatever was at the end
+  var toLoad = {};
+  toLoad.label = last;
+  toLoad.count = count;
+  dataset.push(toLoad);
 
   // Config
   var width = document.getElementById("pieSummaryArea").offsetWidth;
+  if (width < 300) {
+    // Screen is too small, do not display charts
+    console.log("Screen is too small - we will not load charts");
+    return;
+  }
   var height = 300;
   var radius = Math.min(width, height) / 2;
   var donutWidth = 75;
