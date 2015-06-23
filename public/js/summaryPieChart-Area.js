@@ -40,6 +40,16 @@ $(function(){
   toLoad.count = count;
   dataset.push(toLoad);
 
+  // Sort array of objects
+  function compare(a,b) {
+    if (a.count < b.count)
+      return 1;
+    if (a.count > b.count)
+      return -1;
+    return 0;
+  }
+  dataset.sort(compare);
+
   // Config
   var width = document.getElementById("pieSummaryArea").offsetWidth;
   if (width < 300) {
