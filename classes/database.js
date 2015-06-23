@@ -4,12 +4,17 @@ var assert = require('assert');
 var url = 'mongodb://localhost:27017/PM';
 
 // Public functions
-exports.insert = function () {
-  insert();
+exports.test = function () {
+  test();
 };
 
+exports.load = function (object) {
+  loadWrapper(object);
+};
+
+
 // Private functions
-var insert = function() {
+var test = function() {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     console.log("Connected to the server");
@@ -27,6 +32,23 @@ var insert = function() {
   });
 };
 
+var loadWrapper = function(object) {
+  var myObject = object;
+  console.log("First: " + JSON.stringify(myObject));
+  MongoClient.connect(url, function(err, db, myObject) {
+    assert.equal(null, err);
+    console.log("Connected to the server");
+    console.log("Second: " + JSON.stringify(myObject));
+    insertProject(db, function(myObject) {
+      findDocuments(db, function() {
+        removeAllDocuments(db, function() {
+          end(db);
+        });
+      });
+    });
+  });
+};
+
 var end = function(db) {
   db.close;
   console.log("Disconnected from the server");
@@ -35,7 +57,7 @@ var end = function(db) {
 // Insert
 var insertDocuments = function(db, callback) {
   // Get the documents collection
-  var collection = db.collection('documents');
+  var collection = db.collection('projects');
   // Insert some documents
   collection.insert([
     {x : 1}, {y : 2}, {z : 3}
@@ -51,7 +73,7 @@ var insertDocuments = function(db, callback) {
 // Update
 var updateDocument = function(db, callback) {
   // Get the documents collection
-  var collection = db.collection('documents');
+  var collection = db.collection('projects');
   // Update document where a is 2, set b equal to 1
   collection.update({ a : 2 }
     , { $set: { b : 1 } }, function(err, result) {
@@ -65,7 +87,7 @@ var updateDocument = function(db, callback) {
 // Remove
 var removeDocument = function(db, callback) {
   // Get the documents collection
-  var collection = db.collection('documents');
+  var collection = db.collection('projects');
   // Insert some documents
   collection.remove({ a : 3 }, function(err, result) {
     assert.equal(err, null);
@@ -78,7 +100,7 @@ var removeDocument = function(db, callback) {
 // Remove all
 var removeAllDocuments = function(db, callback) {
   // Get the documents collection
-  var collection = db.collection('documents');
+  var collection = db.collection('projects');
   // Insert some documents
   collection.remove({}, function(err, result) {
     assert.equal(err, null);
@@ -91,7 +113,7 @@ var removeAllDocuments = function(db, callback) {
 // Find all
 var findDocuments = function(db, callback) {
   // Get the documents collection
-  var collection = db.collection('documents');
+  var collection = db.collection('projects');
   // Find some documents
   collection.find({}).toArray(function(err, docs) {
     assert.equal(err, null);
@@ -100,5 +122,20 @@ var findDocuments = function(db, callback) {
     console.log("Found the following records");
     console.dir(docs);
     callback(docs);
+  });
+}
+
+// Insert
+var insertProject = function(db, callback, object) {
+  console.log("Trying to insert [" + object + "]");
+  // Get the documents collection
+  var collection = db.collection('projects');
+  // Insert some documents
+  collection.insert(object, function(err, result) {
+    assert.equal(err, null);
+    console.log("Insert action result: " + result);
+    assert.equal(object.length, result.length);
+    console.log("Inserted " + result.length + " documents into the document collection");
+    callback(result);
   });
 }
