@@ -17,7 +17,6 @@ exports.load = function (object) {
 var test = function() {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected to the server");
     insertDocuments(db, function() {
       updateDocument(db, function() {
         removeDocument(db, function() {
@@ -33,13 +32,9 @@ var test = function() {
 };
 
 var loadWrapper = function(object) {
-  var myObject = object;
-  console.log("First: " + JSON.stringify(myObject));
-  MongoClient.connect(url, function(err, db, myObject) {
+  MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
-    console.log("Connected to the server");
-    console.log("Second: " + JSON.stringify(myObject));
-    insertProject(db, function(myObject) {
+    insertProject(db, object, function() {
       findDocuments(db, function() {
         removeAllDocuments(db, function() {
           end(db);
@@ -51,7 +46,6 @@ var loadWrapper = function(object) {
 
 var end = function(db) {
   db.close;
-  console.log("Disconnected from the server");
 }
 
 // Insert
@@ -63,9 +57,7 @@ var insertDocuments = function(db, callback) {
     {x : 1}, {y : 2}, {z : 3}
   ], function(err, result) {
     assert.equal(err, null);
-    console.log("update: " + result);
     assert.equal(3, result.length);
-    console.log("Inserted 3 documents into the document collection");
     callback(result);
   });
 }
@@ -78,8 +70,6 @@ var updateDocument = function(db, callback) {
   collection.update({ a : 2 }
     , { $set: { b : 1 } }, function(err, result) {
     assert.equal(err, null);
-    console.log("update: " + result);
-    console.log("Updated the document with the field a equal to 2");
     callback(result);
   });
 }
@@ -91,8 +81,6 @@ var removeDocument = function(db, callback) {
   // Insert some documents
   collection.remove({ a : 3 }, function(err, result) {
     assert.equal(err, null);
-    console.log("remove: " + result);
-    console.log("Removed the document with the field a equal to 3");
     callback(result);
   });
 }
@@ -104,8 +92,6 @@ var removeAllDocuments = function(db, callback) {
   // Insert some documents
   collection.remove({}, function(err, result) {
     assert.equal(err, null);
-    console.log("remove: " + result);
-    console.log("Removed all documents");
     callback(result);
   });
 }
@@ -126,16 +112,13 @@ var findDocuments = function(db, callback) {
 }
 
 // Insert
-var insertProject = function(db, callback, object) {
-  console.log("Trying to insert [" + object + "]");
+var insertProject = function(db, zobject, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Insert some documents
-  collection.insert(object, function(err, result) {
+  collection.insert(zobject, function(err, result) {
     assert.equal(err, null);
-    console.log("Insert action result: " + result);
-    assert.equal(object.length, result.length);
-    console.log("Inserted " + result.length + " documents into the document collection");
+    assert.equal(zobject.length, result.length);
     callback(result);
   });
 }
