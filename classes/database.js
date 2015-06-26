@@ -1,8 +1,10 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
+// Config options
 var url = 'mongodb://localhost:27017/PM';
 
+// ============================================================
 // Public functions
 exports.test = function () {
   test();
@@ -12,8 +14,8 @@ exports.load = function (object) {
   loadWrapper(object);
 };
 
-
-// Private functions
+// ============================================================
+// Private (meta) functions
 var test = function() {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
@@ -44,6 +46,10 @@ var loadWrapper = function(object) {
   });
 };
 
+// ============================================================
+// Individual functions
+
+// Disconnect
 var end = function(db) {
   db.close;
 }
