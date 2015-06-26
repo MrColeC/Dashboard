@@ -1,8 +1,33 @@
 extends layout
 block content
-    .row
-      <br/><br/><br/><br/>
-      .row.quickstatus
-        .col-xs-12.col-sm-4.placeholder
-          h4 Add Content
+  <br/><br/><br/><br/>
+  h4 Add Content
+  .row
+    .col-sm-4
+      | Area Dropdown
+    .col-sm-4
+      | Project name box
+    .col-sm-2
+      | Project leader
+    .col-sm-2
+      | Due date
+  .row
+    .col-sm-8
+      | Members
+    .col-sm-4
+      | Grant deliverables
+  .row
+    .col-sm-8
+      | Software req's
+    .col-sm-4
+      | Effort req's
+  .row
+    form.form-inline
+      .form-group
+        label.exampleInputName2 Name
+        inut(type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe")
+      .form-group
+        label.exampleInputName2 Email
+        inut(type="text" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com")
+      button(type="submit" class="btn btn-default") Send invitation
 block js-includes
