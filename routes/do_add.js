@@ -3,21 +3,25 @@ var router = express.Router();
 
 var database = require('../classes/database.js');
 
-/* GET page. */
+/* Handle add post. */
 router.post('/', function(req, res, next) {
-  // database.test();
-  var object = [{
-    "area": "Weekly Update",
-    "name": "Enable Data Out loaders to be ran earlier in the pipeline",
-    "leader": "Cole",
-    "members": "Vladimir, Li, Chris",
-    "date": "2016-Q2",
-    "deliverables": "Core Operations",
-    "software": "Modularize loaders define inputs/outputs create workflows",
-    "effort": "Small effort commitment"
-    }];
+  // Create project JSON object
+  var project = {};
+  project.area = req.body.area;
+  project.name = req.body.name;
+  project.leader = req.body.leader;
+  project.date = req.body.date;
+  project.members = req.body.members;
+  project.deliverables = req.body.deliverables;
+  project.software = req.body.software;
+  project.effort = req.body.effort;
 
-  database.load(object);
+  // Perform the database load (add) operaton on the created object
+  var toLoad = [];
+  toLoad.push(project);
+  database.load(toLoad);
+
+  // Render page notifying success
   res.render('do_add', { title: 'Project Management Dashboard' });
 });
 

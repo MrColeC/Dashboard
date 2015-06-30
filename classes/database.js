@@ -37,11 +37,7 @@ var loadWrapper = function(object) {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     insertProject(db, object, function() {
-      findDocuments(db, function() {
-        removeAllDocuments(db, function() {
-          end(db);
-        });
-      });
+      end(db);
     });
   });
 };
