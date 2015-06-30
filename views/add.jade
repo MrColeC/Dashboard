@@ -1,33 +1,39 @@
 extends layout
 block content
   <br/><br/><br/><br/>
-  h4 Add Content
   .row
-    .col-sm-4
-      | Area Dropdown
-    .col-sm-4
-      | Project name box
-    .col-sm-2
-      | Project leader
-    .col-sm-2
-      | Due date
-  .row
-    .col-sm-8
-      | Members
-    .col-sm-4
-      | Grant deliverables
-  .row
-    .col-sm-8
-      | Software req's
-    .col-sm-4
-      | Effort req's
-  .row
-    form.form-inline
-      .form-group
-        label.exampleInputName2 Name
-        inut(type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe")
-      .form-group
-        label.exampleInputName2 Email
-        inut(type="text" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com")
-      button(type="submit" class="btn btn-default") Send invitation
+    .col-sm-12
+      form.add-project(action="/do_add", method="post")
+        h4.form-signin-heading Add a Project
+        .form-inline
+          .form-group
+            label Area
+            input.form-control(type="text", size="25", name="area", placeholder="Area")
+          .form-group
+            label Name
+            input.form-control(type="text", size="40", name="name", placeholder="Name")
+          .form-group
+            label Leader
+            input.form-control(type="text", name="leader", placeholder="Leader")
+          <br>
+          .form-group
+            label Due Date
+            input.form-control(type="text", name="date", placeholder="Due Date")
+          .form-group
+            label Members
+            input.form-control(type="text", size="75", name="members", placeholder="Members")
+          <br>
+          .form-group
+            label Grant Deliverables
+            input.form-control(type="text", size="75", name="deliverables", placeholder="Grant Deliverables")
+          <br>
+          .form-group
+            label Software Requirements
+            input.form-control(type="text", size="75", name="software", placeholder="Software Requirements")
+          <br>
+          .form-group
+            label Estimted Effort
+            input.form-control(type="text", size="75", name="effort", placeholder="Estimated Effort")
+          <br>
+          button.btn.btn-large.btn-primary(type="submit") Add Project
 block js-includes

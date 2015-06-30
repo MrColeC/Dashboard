@@ -75,3 +75,14 @@ rect {
 .tip-percent {
   font-size: 12px;
 }
+
+/* Forms */
+.form-group label {
+  margin-left: 1.5em;
+  margin-right: .25em;
+}
+
+.form-group {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
