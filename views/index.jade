@@ -13,6 +13,51 @@ block content
           h4 Leaders
           #pieSummaryLeader.charts
     .row
+      button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" data-target="#modal-add-project") Launch demo modal
+      #modal-add-project.modal.fade
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              button.close(type="button" data-dismiss="modal") x
+              h4 Add a Project
+            .modal-body
+              form.form-horizontal
+                .form-group
+                  label.col-xs-2.one-line Area
+                  .col-xs-9
+                    input.form-control(type="text", name="add-area", placeholder="Area")
+                .form-group
+                  label.col-xs-2.one-line Name
+                  .col-xs-9
+                    input.form-control(type="text", name="add-name", placeholder="Name")
+                .form-group
+                  label.col-xs-2.one-line Leader
+                  .col-xs-9
+                    input.form-control(type="text", name="add-leader", placeholder="Leader")
+                .form-group
+                  label.col-xs-2.one-line Due Date
+                  .col-xs-9
+                    input.form-control(type="text", name="add-date", placeholder="Due Date")
+                .form-group
+                  label.col-xs-2.one-line Members
+                  .col-xs-9
+                    input.form-control(type="text", name="add-members", placeholder="Members")
+                .form-group
+                  label.col-xs-2.two-lines Grant Deliverables
+                  .col-xs-9
+                    input.form-control(type="text", name="add-deliverables", placeholder="Grant Deliverables")
+                .form-group
+                  label.col-xs-2.two-lines Software Requirements
+                  .col-xs-9
+                    input.form-control(type="text", name="add-software", placeholder="Software Requirements")
+                .form-group
+                  label.col-xs-2.two-lines Estimted Effort
+                  .col-xs-9
+                    input.form-control(type="text", name="add-effort", placeholder="Estimated Effort")
+            .modal-footer
+              input.btn.btn-success(type="submit" value="Submit" id="submit-add-project")
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+    .row
       .col-xs-12
         .table-responsive
           table#mainTable.table.table-striped
@@ -27,11 +72,11 @@ block content
                 th Software Requirements
                 th Effort Requirements
               tbody
-                
+
 block js-includes
-  // Javascript to build (populate) the table
   script(src='/3rd-party-js/tablesorter-2.0.5.min.js')
   script(src='/js/buildTable.js')
   script(src='/js/summaryPieChart-Date.js')
   script(src='/js/summaryPieChart-Area.js')
   script(src='/js/summaryPieChart-Leader.js')
+  script(src='/js/submit-add-project.js')

@@ -77,12 +77,12 @@ rect {
 }
 
 /* Forms */
-.form-group label {
-  margin-left: 1.5em;
-  margin-right: .25em;
+label.one-line {
+  text-align: right;
+  margin-top: 5px;
 }
 
-.form-group {
-  margin-top: 3px;
-  margin-bottom: 3px;
+label.two-lines {
+  text-align: right;
+  margin-top: 0px;
 }
