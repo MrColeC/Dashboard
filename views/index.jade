@@ -1,5 +1,7 @@
 extends layout
 block content
+    #statusDisplay.hide
+      | Nothing to display
     .row
       <br/><br/><br/><br/>
       .row.quickstatus
@@ -13,7 +15,6 @@ block content
           h4 Leaders
           #pieSummaryLeader.charts
     .row
-      button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" data-target="#modal-add-project") Launch demo modal
       #modal-add-project.modal.fade
         .modal-dialog(role="document")
           .modal-content
@@ -55,7 +56,7 @@ block content
                   .col-xs-9
                     input.form-control(type="text", name="add-effort", placeholder="Estimated Effort")
             .modal-footer
-              input.btn.btn-success(type="submit" value="Submit" id="submit-add-project")
+              input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-add-project")
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
     .row
       .col-xs-12

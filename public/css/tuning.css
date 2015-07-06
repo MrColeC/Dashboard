@@ -86,3 +86,15 @@ label.two-lines {
   text-align: right;
   margin-top: 0px;
 }
+
+/* Status Box*/
+#statusDisplay {
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  height: 60px;
+  width: 200px;
+  font-size: 1.1em;
+  text-align: right;
+  padding: 10px;
+}

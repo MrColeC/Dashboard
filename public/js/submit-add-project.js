@@ -20,12 +20,15 @@ $(function(){
       data: json,
       contentType: "application/json",
       success: function(data){
-        alert("Success: " + JSON.stringify(data));
-        console.log("Sent: " + json);
+        $("#statusDisplay").html("<label class='label label-success'>Project Added</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
       },
       failure: function(errMsg) {
-        alert("Failure: " + errMsg);
-        console.log("Failed to send: " + json);
+        $("#statusDisplay").html("<label class='label label-danger'>Failed to add Project</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
+        console.log(errMsg);
       }
     });
   });
