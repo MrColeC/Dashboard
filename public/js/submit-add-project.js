@@ -11,27 +11,21 @@ $(function(){
     project.deliverables = $('input[name="add-deliverabes"]').val();
     project.software = $('input[name="add-software"]').val();
     project.effort = $('input[name="add-effort"]').val();
-    console.log("Sending: " + JSON.stringify(project));
-    // POST the object
-    // $.ajax({
-    //   type: "POST",
-    //   url: url,
-    //   data: data,
-    //   success: success,
-    //   dataType: dataType
-    // });
+    var json = JSON.stringify(project);
+    console.log("Sending: " + json);
     $.ajax({
       type: "post",
       url: "/do_add",
       dataType: "json",
-      data: project,
+      data: json,
       contentType: "application/json",
       success: function(data){
-        alert("Success: " + data);
-        console.log("Sent: " + JSON.stringify(project));
+        alert("Success: " + JSON.stringify(data));
+        console.log("Sent: " + json);
       },
       failure: function(errMsg) {
         alert("Failure: " + errMsg);
+        console.log("Failed to send: " + json);
       }
     });
   });
