@@ -14,8 +14,8 @@ exports.load = function (object) {
   loadWrapper(object);
 };
 
-exports.get = function () {
-  getWrapper();
+exports.get = function (callback) {
+  getWrapper(callback);
 }
 
 // ============================================================
@@ -46,13 +46,14 @@ var loadWrapper = function(object) {
   });
 };
 
-var getWrapper = function() {
+var getWrapper = function(callback) {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     var docHolder;
-    findDocuments(db, docHolder, function() {
+    findDocuments(db, function(docHolder) {
       end(db);
-      return(docHolder);
+      console.log("Ha! - " + JSON.stringify(docHolder));
+      callback(docHolder);
     });
   });
 };
@@ -116,7 +117,7 @@ var removeAllDocuments = function(db, callback) {
 }
 
 // Find all
-var findDocuments = function(db, docHolder, callback) {
+var findDocuments = function(db, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Find some documents
@@ -126,7 +127,6 @@ var findDocuments = function(db, docHolder, callback) {
     // assert.equal(2, docs.length);
     console.log("Found the following records");
     console.dir(docs);
-    docHolder = docs;
     callback(docs);
   });
 }

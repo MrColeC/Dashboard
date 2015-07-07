@@ -19,12 +19,17 @@ router.post('/add', function(req, res) {
 });
 
 router.get('/add', function(req, res) {
-      res.send("POST to me");
+  res.send("POST to me");
 });
 
 router.get('/get', function(req, res) {
-  console.log(database.get());
-  res.send("Cat");
+  returnGet(res);
 });
+
+var returnGet = function(res) {
+  database.get(function(toSend) {
+    res.send(toSend);
+  });
+};
 
 module.exports = router;
