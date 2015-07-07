@@ -15,7 +15,7 @@ $(function(){
     console.log("Sending: " + json);
     $.ajax({
       type: "post",
-      url: "/do_add",
+      url: "/do/add",
       dataType: "json",
       data: json,
       contentType: "application/json",

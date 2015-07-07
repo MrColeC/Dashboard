@@ -14,6 +14,10 @@ exports.load = function (object) {
   loadWrapper(object);
 };
 
+exports.get = function () {
+  getWrapper();
+}
+
 // ============================================================
 // Private (meta) functions
 var test = function() {
@@ -42,12 +46,25 @@ var loadWrapper = function(object) {
   });
 };
 
+var getWrapper = function() {
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    var docHolder;
+    findDocuments(db, docHolder, function() {
+      end(db);
+      return(docHolder);
+    });
+  });
+};
+
+
 // ============================================================
 // Individual functions
 
 // Disconnect
 var end = function(db) {
   db.close;
+  console.log("DB close");
 }
 
 // Insert
@@ -99,7 +116,7 @@ var removeAllDocuments = function(db, callback) {
 }
 
 // Find all
-var findDocuments = function(db, callback) {
+var findDocuments = function(db, docHolder, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Find some documents
@@ -109,6 +126,7 @@ var findDocuments = function(db, callback) {
     // assert.equal(2, docs.length);
     console.log("Found the following records");
     console.dir(docs);
+    docHolder = docs;
     callback(docs);
   });
 }
