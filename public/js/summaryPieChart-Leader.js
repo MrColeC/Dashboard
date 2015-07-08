@@ -1,5 +1,5 @@
 // Builds a pie chart summarizing table content
-$(function(){
+var pieChart_leader = function(){
   // Data
   // Collect data from DOM
   var rawCountForChart = [];
@@ -120,4 +120,4 @@ $(function(){
   path.on('mouseout', function() {
     tooltip.style('display', 'none');
   });
-});
+};

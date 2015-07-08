@@ -65,7 +65,7 @@ var getWrapper = function(callback) {
 // Disconnect
 var end = function(db) {
   db.close;
-  console.log("DB close");
+  // console.log("DB close");
 }
 
 // Insert
@@ -123,10 +123,8 @@ var findDocuments = function(db, callback) {
   // Find some documents
   collection.find({}).toArray(function(err, docs) {
     assert.equal(err, null);
-    // console.log(docs);
-    // assert.equal(2, docs.length);
-    console.log("Found the following records");
-    console.dir(docs);
+    // console.log("Found the following records");
+    // console.dir(docs);
     callback(docs);
   });
 }
