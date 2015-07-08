@@ -11,11 +11,15 @@ exports.test = function () {
 };
 
 exports.load = function (object) {
-  loadWrapper(object);
+  createWrapper(object);
 };
 
 exports.get = function (callback) {
-  getWrapper(callback);
+  readWrapper(callback);
+}
+
+exports.remove = function (callback) {
+  deleteWrapper(callback);
 }
 
 // ============================================================
@@ -37,7 +41,7 @@ var test = function() {
   });
 };
 
-var loadWrapper = function(object) {
+var createWrapper = function(object) {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     insertProject(db, object, function() {
@@ -46,18 +50,25 @@ var loadWrapper = function(object) {
   });
 };
 
-var getWrapper = function(callback) {
+var readWrapper = function(callback) {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     var docHolder;
     findDocuments(db, function(docHolder) {
       end(db);
-      console.log("Ha! - " + JSON.stringify(docHolder));
       callback(docHolder);
     });
   });
 };
 
+var deleteWrapper = function(targetId) {
+  MongoClient.connect(url, function(err, db) {
+    assert.equal(null, err);
+    removeDocument(db, targetId, function() {
+      end(db);
+    });
+  });
+};
 
 // ============================================================
 // Individual functions
@@ -95,11 +106,13 @@ var updateDocument = function(db, callback) {
 }
 
 // Remove
-var removeDocument = function(db, callback) {
+var removeDocument = function(db, targetId, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Insert some documents
-  collection.remove({ a : 3 }, function(err, result) {
+  var target = JSON.stringify(targetId);
+  console.log("Trying to remove: " + target);
+  collection.remove(target, function(err, result) {
     assert.equal(err, null);
     callback(result);
   });
