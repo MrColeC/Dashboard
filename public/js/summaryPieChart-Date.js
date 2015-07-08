@@ -1,5 +1,8 @@
 // Builds a pie chart summarizing table content
 var pieChart_date = function(){
+  // Zero out current content
+  $("#pieSummaryDate").empty();
+
   // Data
   // Collect data from DOM
   var rawCountForChart = [];

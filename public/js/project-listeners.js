@@ -23,10 +23,37 @@ $(function(){
         $("#statusDisplay").html("<label class='label label-success'>Project Added</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
-        refreshTable();
+        addToTable(data);
+        $("#modal-add-project").find("input[type=text]").val("");
       },
       failure: function(errMsg) {
         $("#statusDisplay").html("<label class='label label-danger'>Failed to add Project</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
+        console.log(errMsg);
+      }
+    });
+  });
+
+  // Project removal click event listener
+  $(document).on('click', '.removeProject', function() {
+    console.log("Remove clicked -> " + $(this).val());
+    var prep = {};
+    prep._id = 'ObjectID("' + $(this).val() + '")';
+    var json = JSON.stringify(prep);
+    $.ajax({
+      type: "delete",
+      url: "/do/del",
+      dataType: "json",
+      data: json,
+      contentType: "application/json",
+      success: function(data){
+        $("#statusDisplay").html("<label class='label label-success'>Project Removed</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
+      },
+      failure: function(errMsg) {
+        $("#statusDisplay").html("<label class='label label-danger'>Failed to remove Project</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
         console.log(errMsg);
