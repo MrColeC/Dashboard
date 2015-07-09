@@ -12,10 +12,7 @@ router.post('/add', function(req, res) {
   // Perform the database load (add) operaton on the created object
   var toLoad = [];
   toLoad.push(body);
-  database.load(toLoad);
-
-  // Render page notifying success
-  res.send(req.body);
+  returnCreate(toLoad, res);
 });
 
 // Read data
@@ -40,6 +37,14 @@ router.delete('/del', function(req, res) {
 // Helper function with async callback - for read
 var returnGet = function(res) {
   database.get(function(toSend) {
+    res.send(toSend);
+  });
+};
+
+// Helper function with async callback - for create
+var returnCreate = function(toLoad, res) {
+  database.load(toLoad, function(toSend) {
+    console.log("toSend: " + JSON.stringify(toSend));
     res.send(toSend);
   });
 };

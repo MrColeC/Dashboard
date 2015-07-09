@@ -50,7 +50,7 @@ var addToTable = function(object) {
 // Append to table function
 var tableWorker = function(object) {
   var newRow = "<tr>";
-  newRow += "<td><button class='btn btn-xs btn-default removeProject' style='opacity: .4; margin-right: 1em; margin-left: -.5em;' value='" + object._id + "'><span style='color: #888; margin-top: 3px' class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='project-area'>" + object.area + "</span></td>";
+  newRow += "<td><button class='btn btn-xs btn-default removeProject' value='" + object._id + "'><span style='color: #888; margin-top: 3px' class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='project-area'>" + object.area + "</span></td>";
   newRow += "<td>" + object.name + "</td>";
   newRow += "<td class='project-leader'>" + object.leader + "</td>";
   newRow += "<td>" + object.members + "</td>";

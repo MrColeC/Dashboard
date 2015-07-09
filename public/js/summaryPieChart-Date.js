@@ -45,7 +45,7 @@ var pieChart_date = function(){
 
   // Config
   var width = document.getElementById("pieSummaryDate").offsetWidth;
-  console.log("Summary charts will be " + width + "px wide");
+  // console.log("Summary charts will be " + width + "px wide");
   if (width < 300) {
     // Screen is too small, do not display charts
     console.log("Screen is too small - we will not load charts");
