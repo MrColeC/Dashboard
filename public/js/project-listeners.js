@@ -12,7 +12,7 @@ $(function(){
     project.software = $('input[name="add-software"]').val();
     project.effort = $('input[name="add-effort"]').val();
     var json = JSON.stringify(project);
-    console.log("Sending: " + json);
+    // console.log("Sending: " + json);
     $.ajax({
       type: "post",
       url: "/do/add",
@@ -37,10 +37,12 @@ $(function(){
 
   // Project removal click event listener
   $(document).on('click', '.removeProject', function() {
-    console.log("Remove clicked -> " + $(this).val());
+    // console.log("Remove clicked -> " + $(this).val());
     var prep = {};
-    prep._id = 'ObjectID("' + $(this).val() + '")';
+    prep.id = $(this).val();
     var json = JSON.stringify(prep);
+    // console.log("Sending :" + json);
+    $(this).parent().parent().fadeOut();
     $.ajax({
       type: "delete",
       url: "/do/del",

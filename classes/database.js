@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
+var mdb = require('mongodb');
 
 // Config options
 var url = 'mongodb://localhost:27017/PM';
@@ -61,10 +62,10 @@ var readWrapper = function(callback) {
   });
 };
 
-var deleteWrapper = function(targetId) {
+var deleteWrapper = function(target) {
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
-    removeDocument(db, targetId, function() {
+    removeDocument(db, target, function() {
       end(db);
     });
   });
@@ -106,14 +107,14 @@ var updateDocument = function(db, callback) {
 }
 
 // Remove
-var removeDocument = function(db, targetId, callback) {
+var removeDocument = function(db, target, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Insert some documents
-  var target = JSON.stringify(targetId);
-  console.log("Trying to remove: " + target);
-  collection.remove(target, function(err, result) {
+  // console.log("Trying to remove: " + target.id);
+  collection.remove({_id: new mdb.ObjectID(target.id)}, function(err, result) {
     assert.equal(err, null);
+    // console.log("Result: " + result);
     callback(result);
   });
 }
