@@ -11,8 +11,8 @@ exports.test = function () {
   test();
 };
 
-exports.load = function (object) {
-  createWrapper(object);
+exports.load = function (object, callback) {
+  createWrapper(object, callback);
 };
 
 exports.get = function (callback) {
@@ -27,6 +27,7 @@ exports.remove = function (callback) {
 // Private (meta) functions
 var test = function() {
   MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
     assert.equal(null, err);
     insertDocuments(db, function() {
       updateDocument(db, function() {
@@ -42,17 +43,20 @@ var test = function() {
   });
 };
 
-var createWrapper = function(object) {
+var createWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
     assert.equal(null, err);
-    insertProject(db, object, function() {
+    insertProject(db, object, function(result) {
       end(db);
+      callback(result);
     });
   });
 };
 
 var readWrapper = function(callback) {
   MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
     assert.equal(null, err);
     var docHolder;
     findDocuments(db, function(docHolder) {
@@ -64,6 +68,7 @@ var readWrapper = function(callback) {
 
 var deleteWrapper = function(target) {
   MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
     assert.equal(null, err);
     removeDocument(db, target, function() {
       end(db);
@@ -76,8 +81,8 @@ var deleteWrapper = function(target) {
 
 // Disconnect
 var end = function(db) {
-  db.close;
-  // console.log("DB close");
+  db.close();
+  console.log("-1 DB close");
 }
 
 // Insert
@@ -144,13 +149,14 @@ var findDocuments = function(db, callback) {
 }
 
 // Insert
-var insertProject = function(db, zobject, callback) {
+var insertProject = function(db, object, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Insert some documents
-  collection.insert(zobject, function(err, result) {
+  collection.insert(object, function(err, result) {
     assert.equal(err, null);
-    assert.equal(zobject.length, result.length);
+    assert.equal(object.length, result.length);
+    // console.log("Result: " + JSON.stringify(result));
     callback(result);
   });
 }
