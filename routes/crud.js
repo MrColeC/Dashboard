@@ -29,7 +29,7 @@ router.post('/update', function(req, res) {
   // Perform the database load (add) operaton on the created object
   var toLoad = [];
   toLoad.push(body);
-  returnCreate(toLoad, res);
+  returnUpdate(toLoad, res);
 });
 
 
@@ -57,6 +57,14 @@ var returnGet = function(res) {
 // Helper function with async callback - for create
 var returnCreate = function(toLoad, res) {
   database.load(toLoad, function(toSend) {
+    console.log("toSend: " + JSON.stringify(toSend));
+    res.send(toSend);
+  });
+};
+
+// Helper function with async callback - for update
+var returnUpdate = function(toLoad, res) {
+  database.update(toLoad, function(toSend) {
     console.log("toSend: " + JSON.stringify(toSend));
     res.send(toSend);
   });

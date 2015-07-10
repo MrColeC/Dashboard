@@ -15,6 +15,10 @@ exports.load = function (object, callback) {
   createWrapper(object, callback);
 };
 
+exports.update = function (object, callback) {
+  updateWrapper(object, callback);
+};
+
 exports.get = function (callback) {
   readWrapper(callback);
 }
@@ -66,6 +70,16 @@ var readWrapper = function(callback) {
   });
 };
 
+var updateWrapper = function() {
+  MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
+    assert.equal(null, err);
+    updateDocument(db, function() {
+      end(db);
+    });
+  });
+};
+
 var deleteWrapper = function(target) {
   MongoClient.connect(url, function(err, db) {
     console.log("+1 DB connection");
@@ -100,12 +114,12 @@ var insertDocuments = function(db, callback) {
 }
 
 // Update
-var updateDocument = function(db, callback) {
+var updateDocument = function(db, target, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Update document where a is 2, set b equal to 1
-  collection.update({ a : 2 }
-    , { $set: { b : 1 } }, function(err, result) {
+  console.log("Updateing project with ID [" + target.id + "] -> setting [" + target.type + "] to [" + target.setTo + "]");
+  collection.update({_id: new mdb.ObjectID(target.id)}, { $set: target }, function(err, result) {
     assert.equal(err, null);
     callback(result);
   });
