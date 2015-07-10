@@ -50,14 +50,14 @@ var addToTable = function(object) {
 // Append to table function
 var tableWorker = function(object) {
   var newRow = "<tr>";
-  newRow += "<td><button class='btn btn-xs btn-default removeProject' value='" + object._id + "'><span style='color: #888; margin-top: 3px' class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='project-area'>" + object.area + "</span></td>";
-  newRow += "<td>" + object.name + "</td>";
-  newRow += "<td class='project-leader'>" + object.leader + "</td>";
-  newRow += "<td>" + object.members + "</td>";
-  newRow += "<td class='project-targetDate'>" + object.date + "</td>";
-  newRow += "<td>" + object.goals + "</td>";
-  newRow += "<td>" + object.software + "</td>";
-  newRow += "<td>" + object.effort + "</td>";
+  newRow += "<td><button class='btn btn-xs btn-default removeProject' value='" + object._id + "'><span style='color: #888; margin-top: 3px' class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='project-area canEdit' pID='" + object._id + "'>" + object.area + "</span></td>";
+  newRow += "<td class='canEdit' pID='" + object._id + "'>" + object.name + "</td>";
+  newRow += "<td class='project-leader canEdit' pID='" + object._id + "'>" + object.leader + "</td>";
+  newRow += "<td class='canEdit' pID='" + object._id + "'>" + object.members + "</td>";
+  newRow += "<td class='project-targetDate canEdit' pID='" + object._id + "'>" + object.date + "</td>";
+  newRow += "<td class='canEdit' pID='" + object._id + "'>" + object.goals + "</td>";
+  newRow += "<td class='canEdit' pID='" + object._id + "'>" + object.software + "</td>";
+  newRow += "<td class='canEdit' pID='" + object._id + "'>" + object.effort + "</td>";
   newRow += "</tr>";
 
   // Append the new row

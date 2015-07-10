@@ -84,4 +84,9 @@ $(function(){
       }
     });
   });
+
+  // Project removal click event listener
+  $(document).on('click', '.canEdit', function() {
+    console.log("Update request on object -> [" + $(this).html() + "] and ID -> [" + $(this).attr('pID') + "]");
+  });
 });
