@@ -57,12 +57,22 @@ $(function(){
     });
   });
 
-  // Have enter keys fire click event
+  // Have enter keys fire click event - add project
   $('.addProject').keypress(function (e) {
     var key = e.which;
     if(key == 13)  // the enter key code
     {
       $("#submit-add-project").click();
+      return false;
+    }
+  });
+
+  // Have enter keys fire click event - edit project
+  $('#edit-data').keypress(function (e) {
+    var key = e.which;
+    if(key == 13)  // the enter key code
+    {
+      $("#submit-edit-project").click();
       return false;
     }
   });
@@ -132,6 +142,15 @@ $(function(){
     $('#modal-edit-project').modal('show');
   });
 
+  // When the modal is show - focus the first element
+  $('#modal-edit-project').on('shown.bs.modal', function () {
+    $('#edit-data').focus();
+    $('#edit-data').val($('#edit-data').val());
+  });
+  $('#modal-add-project').on('shown.bs.modal', function () {
+    $('#add-area').focus();
+  });
+
   // Function pulled from stackoverflow to camel case a word
   // http://stackoverflow.com/questions/5086390/jquery-camelcase
   function toCamelCase(str) {
@@ -144,7 +163,7 @@ $(function(){
   $("#submit-edit-project").click(function() {
     // Pull data from the model
     var target = $("#editTarget").attr('target-value');
-    var value = $("#edit-data").attr('value');
+    var value = $("#edit-data").html();
     var id = $("#editTarget").attr('target-id');
     // console.log("Passed: target[" + target + "] value[" + value + "] from ID[" + id + "]");
 
@@ -153,24 +172,28 @@ $(function(){
     // Users can modify the DOM element to point at arbitrary ID's and for arbitrary values
     // However, since all users can edit and see all items (no RBAC) this is a moot point
     var update = {};
-    if (target = "area") {
+    if (target == "area") {
       update.area = value;
-    } else if (target = "name") {
+    } else if (target == "name") {
       update.name = value;
-    } else if (target = "leader") {
+    } else if (target == "leader") {
       update.leader = value;
-    } else if (target = "members") {
+    } else if (target == "members") {
       update.members = value;
-    } else if (target = "date") {
+    } else if (target == "date") {
       update.date = value;
-    } else if (target = "goals") {
+    } else if (target == "goals") {
       update.goals = value;
-    } else if (target = "software") {
+    } else if (target == "software") {
       update.software = value;
-    } else if (target = "effort") {
+    } else if (target == "effort") {
       update.effort = value;
+    } else {
+      console.log("   Unknown update type");
     }
+    update.id = id;
     var json = JSON.stringify(update);
+    console.log("Update JSON being sent: " + json);
     $.ajax({
       type: "post",
       url: "/do/update",
@@ -179,14 +202,13 @@ $(function(){
       contentType: "application/json",
       success: function(data){
         console.log("Receieved back from add request: " + JSON.stringify(data));
-        $("#statusDisplay").html("<label class='label label-success'>Project Added</label>");
+        $("#statusDisplay").html("<label class='label label-success'>Project Updated</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
-        addToTable(data[0]);
-        $("#modal-add-project").find("input[type=text]").val("");
+        // addToTable(data[0]);
       },
       failure: function(errMsg) {
-        $("#statusDisplay").html("<label class='label label-danger'>Failed to add Project</label>");
+        $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
         console.log(errMsg);
