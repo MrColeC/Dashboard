@@ -176,10 +176,6 @@ $(function(){
     var id = $("#editTarget").attr('target-id');
     // console.log("Passed: target[" + target + "] value[" + value + "] from ID[" + id + "]");
 
-    // Update the display to show the new value now
-    // console.log ("Updating item to show: [" + value + "]");
-    $(liveEditTarget).html(value);
-
     // Create project JSON object
     // Warning - this update statement is not safe
     // Users can modify the DOM element to point at arbitrary ID's and for arbitrary values
@@ -210,13 +206,17 @@ $(function(){
     $.ajax({
       type: "post",
       url: "/do/update",
-      dataType: "json",
+      dataType: "html",
       data: json,
       contentType: "application/json",
       success: function(data){
         $("#statusDisplay").html("<label class='label label-success'>Project Updated</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
+
+        // Update the display to show the new value now
+        // console.log ("Updating item to show: [" + value + "]");
+        $(liveEditTarget).html(value);
       },
       failure: function(errMsg) {
         $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");
@@ -225,5 +225,16 @@ $(function(){
         console.log(errMsg);
       }
     });
+  });
+
+  $("#enableDelete").click(function() {
+    // This is computed before the default event handler can active the button, so invert logic
+    if ($("#enableDelete").hasClass('active')) {
+      // console.log("Hiding delete buttons");
+      $('.removeProject').addClass('hide');
+    } else {
+      // console.log("Showing delete buttons");
+      $('.removeProject').removeClass('hide');
+    }
   });
 });

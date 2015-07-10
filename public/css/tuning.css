@@ -107,3 +107,8 @@ label.two-lines {
   margin-top: -2px;
   float: left;
 }
+
+/* Button that enables deletes */
+#enableDelete:focus {
+  outline: none;
+}
