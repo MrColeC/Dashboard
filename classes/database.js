@@ -56,8 +56,9 @@ var updateWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
     // console.log("+1 DB connection");
     assert.equal(null, err);
-    updateDocument(db, object[0], function() {
+    updateDocument(db, object[0], function(result) {
       end(db);
+      callback(result);
     });
   });
 };
@@ -89,7 +90,7 @@ var updateDocument = function(db, target, callback) {
   // console.log("Updating project with ID [" + target.id + "] -> setting [" + JSON.stringify(target) + "]");
   collection.update({_id: new mdb.ObjectID(target.id)}, { $set: target }, function(err, result) {
     assert.equal(err, null);
-    callback(result);
+    callback('success');
   });
 }
 
