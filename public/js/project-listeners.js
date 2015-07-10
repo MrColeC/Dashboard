@@ -113,8 +113,14 @@ $(function(){
     });
   });
 
-  // Project removal click event listener
+  // Used to store the target of what was originally click on to launch the edit window
+  var liveEditTarget = "";
+
+  // Project EDIT click event listener
   $(document).on('click', '.canEdit', function() {
+    // Save target
+    liveEditTarget = $(this);
+
     // Extract
     var display = toCamelCase($(this).attr('pType'));
     if (display == "Goals") {
@@ -129,7 +135,7 @@ $(function(){
     var tValue = $(this).attr('pType');
     var tID = $(this).attr('pID');
     var current = $(this).html();
-    console.log("Update request on [" + display + "] to [" + current + "] and ID [" + tID + "]");
+    // console.log("Update request for [" + display + "] which currently has [" + current + "] and an object ID of [" + tID + "]");
 
     // Update edit modal to reflect current status and carry required data to submit the edit
     $("#editTarget").html(display);
@@ -137,6 +143,7 @@ $(function(){
     $("#editTarget").attr('target-id', tID);
     $("#edit-data").attr("placeholder", current);
     $("#edit-data").attr("value",current);
+    // console.log("Value set to " + current);
 
     // Show the modal
     $('#modal-edit-project').modal('show');
@@ -145,7 +152,9 @@ $(function(){
   // When the modal is show - focus the first element
   $('#modal-edit-project').on('shown.bs.modal', function () {
     $('#edit-data').focus();
-    $('#edit-data').val($('#edit-data').val());
+    var moveCursor = $('#edit-data');
+    var end = moveCursor.val().length * 2;
+    moveCursor[0].setSelectionRange(end,end);
   });
   $('#modal-add-project').on('shown.bs.modal', function () {
     $('#add-area').focus();
@@ -163,9 +172,13 @@ $(function(){
   $("#submit-edit-project").click(function() {
     // Pull data from the model
     var target = $("#editTarget").attr('target-value');
-    var value = $("#edit-data").html();
+    var value = $("#edit-data").val();
     var id = $("#editTarget").attr('target-id');
     // console.log("Passed: target[" + target + "] value[" + value + "] from ID[" + id + "]");
+
+    // Update the display to show the new value now
+    // console.log ("Updating item to show: [" + value + "]");
+    $(liveEditTarget).html(value);
 
     // Create project JSON object
     // Warning - this update statement is not safe
@@ -193,7 +206,7 @@ $(function(){
     }
     update.id = id;
     var json = JSON.stringify(update);
-    console.log("Update JSON being sent: " + json);
+    // console.log("Update JSON being sent: " + json);
     $.ajax({
       type: "post",
       url: "/do/update",
@@ -201,11 +214,9 @@ $(function(){
       data: json,
       contentType: "application/json",
       success: function(data){
-        console.log("Receieved back from add request: " + JSON.stringify(data));
         $("#statusDisplay").html("<label class='label label-success'>Project Updated</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
-        // addToTable(data[0]);
       },
       failure: function(errMsg) {
         $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");

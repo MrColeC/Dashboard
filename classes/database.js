@@ -29,27 +29,9 @@ exports.remove = function (callback) {
 
 // ============================================================
 // Private (meta) functions
-var test = function() {
-  MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
-    assert.equal(null, err);
-    insertDocuments(db, function() {
-      updateDocument(db, function() {
-        removeDocument(db, function() {
-          findDocuments(db, function() {
-            removeAllDocuments(db, function() {
-              end(db);
-            });
-          });
-        });
-      });
-    });
-  });
-};
-
 var createWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    // console.log("+1 DB connection");
     assert.equal(null, err);
     insertProject(db, object, function(result) {
       end(db);
@@ -60,7 +42,7 @@ var createWrapper = function(object, callback) {
 
 var readWrapper = function(callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    // console.log("+1 DB connection");
     assert.equal(null, err);
     var docHolder;
     findDocuments(db, function(docHolder) {
@@ -70,11 +52,11 @@ var readWrapper = function(callback) {
   });
 };
 
-var updateWrapper = function() {
+var updateWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    // console.log("+1 DB connection");
     assert.equal(null, err);
-    updateDocument(db, function() {
+    updateDocument(db, object[0], function() {
       end(db);
     });
   });
@@ -82,7 +64,7 @@ var updateWrapper = function() {
 
 var deleteWrapper = function(target) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    // console.log("+1 DB connection");
     assert.equal(null, err);
     removeDocument(db, target, function() {
       end(db);
@@ -96,21 +78,7 @@ var deleteWrapper = function(target) {
 // Disconnect
 var end = function(db) {
   db.close();
-  console.log("-1 DB close");
-}
-
-// Insert
-var insertDocuments = function(db, callback) {
-  // Get the documents collection
-  var collection = db.collection('projects');
-  // Insert some documents
-  collection.insert([
-    {x : 1}, {y : 2}, {z : 3}
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3, result.length);
-    callback(result);
-  });
+  // console.log("-1 DB close");
 }
 
 // Update
@@ -118,7 +86,7 @@ var updateDocument = function(db, target, callback) {
   // Get the documents collection
   var collection = db.collection('projects');
   // Update document where a is 2, set b equal to 1
-  console.log("Updateing project with ID [" + target.id + "] -> setting [" + target.type + "] to [" + target.setTo + "]");
+  // console.log("Updating project with ID [" + target.id + "] -> setting [" + JSON.stringify(target) + "]");
   collection.update({_id: new mdb.ObjectID(target.id)}, { $set: target }, function(err, result) {
     assert.equal(err, null);
     callback(result);

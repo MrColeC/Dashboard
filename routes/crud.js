@@ -7,7 +7,7 @@ var database = require('../classes/database.js');
 router.post('/add', function(req, res) {
   // Extract & log
   var body = req.body;
-  console.log("Recieved add request: " + JSON.stringify(body));
+  // console.log("CRUD - Recieved add request: " + JSON.stringify(body));
 
   // Perform the database load (add) operaton on the created object
   var toLoad = [];
@@ -24,7 +24,7 @@ router.get('/get', function(req, res) {
 router.post('/update', function(req, res) {
   // Extract & log
   var body = req.body;
-  console.log("Recieved update request: " + JSON.stringify(body));
+  // console.log("CRUD - Recieved update request: " + JSON.stringify(body));
 
   // Perform the database load (add) operaton on the created object
   var toLoad = [];
@@ -37,7 +37,7 @@ router.post('/update', function(req, res) {
 router.delete('/del', function(req, res) {
   // Extract & log
   var body = req.body;
-  console.log("Recieved delete request for ID: " + JSON.stringify(body));
+  // console.log("CRUD - Recieved delete request for ID: " + JSON.stringify(body));
 
   // Perform removal from database
   database.remove(body);
@@ -57,7 +57,6 @@ var returnGet = function(res) {
 // Helper function with async callback - for create
 var returnCreate = function(toLoad, res) {
   database.load(toLoad, function(toSend) {
-    console.log("toSend: " + JSON.stringify(toSend));
     res.send(toSend);
   });
 };
@@ -65,7 +64,6 @@ var returnCreate = function(toLoad, res) {
 // Helper function with async callback - for update
 var returnUpdate = function(toLoad, res) {
   database.update(toLoad, function(toSend) {
-    console.log("toSend: " + JSON.stringify(toSend));
     res.send(toSend);
   });
 };
