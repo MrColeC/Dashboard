@@ -20,6 +20,19 @@ router.get('/get', function(req, res) {
   returnGet(res);
 });
 
+// Update data
+router.post('/update', function(req, res) {
+  // Extract & log
+  var body = req.body;
+  console.log("Recieved update request: " + JSON.stringify(body));
+
+  // Perform the database load (add) operaton on the created object
+  var toLoad = [];
+  toLoad.push(body);
+  returnCreate(toLoad, res);
+});
+
+
 // Delete data
 router.delete('/del', function(req, res) {
   // Extract & log

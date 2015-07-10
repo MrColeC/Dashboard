@@ -26,37 +26,52 @@ block content
                 .form-group
                   label.col-xs-2.one-line Area
                   .col-xs-9
-                    input.form-control(type="text", name="add-area", placeholder="Area")
+                    input.addProject.form-control(type="text", name="add-area", placeholder="Area")
                 .form-group
                   label.col-xs-2.one-line Name
                   .col-xs-9
-                    input.form-control(type="text", name="add-name", placeholder="Name")
+                    input.addProject.form-control(type="text", name="add-name", placeholder="Name")
                 .form-group
                   label.col-xs-2.one-line Leader
                   .col-xs-9
-                    input.form-control(type="text", name="add-leader", placeholder="Leader")
+                    input.addProject.form-control(type="text", name="add-leader", placeholder="Leader")
                 .form-group
                   label.col-xs-2.one-line Due Date
                   .col-xs-9
-                    input.form-control(type="text", name="add-date", placeholder="Due Date")
+                    input.addProject.form-control(type="text", name="add-date", placeholder="Due Date")
                 .form-group
                   label.col-xs-2.one-line Members
                   .col-xs-9
-                    input.form-control(type="text", name="add-members", placeholder="Members")
+                    input.addProject.form-control(type="text", name="add-members", placeholder="Members")
                 .form-group
                   label.col-xs-2.two-lines Grant Deliverables
                   .col-xs-9
-                    input.form-control(type="text", name="add-goals", placeholder="Grant Deliverables")
+                    input.addProject.form-control(type="text", name="add-goals", placeholder="Grant Deliverables")
                 .form-group
                   label.col-xs-2.two-lines Software Requirements
                   .col-xs-9
-                    input.form-control(type="text", name="add-software", placeholder="Software Requirements")
+                    input.addProject.form-control(type="text", name="add-software", placeholder="Software Requirements")
                 .form-group
                   label.col-xs-2.two-lines Estimted Effort
                   .col-xs-9
-                    input.form-control(type="text", name="add-effort", placeholder="Estimated Effort")
+                    input.addProject.form-control(type="text", name="add-effort", placeholder="Estimated Effort")
             .modal-footer
               input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-add-project")
+              button.btn.btn-default(type="button" data-dismiss="modal") Cancel
+      #modal-edit-project.modal.fade
+        .modal-dialog(role="document")
+          .modal-content
+            .modal-header
+              button.close(type="button" data-dismiss="modal") x
+              h4 Edit Project
+            .modal-body
+              form.form-horizontal
+                .form-group
+                  label#editTarget.col-xs-2.one-line(target-value="target" target-id="1") Target
+                  .col-xs-9
+                    input#edit-data.form-control(type="text", name="edit-data", placeholder="Editing prior data")
+            .modal-footer
+              input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-edit-project")
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
     .row
       .col-xs-12
