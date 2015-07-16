@@ -1,4 +1,5 @@
 /* All */
+
 body {
   font-family: 'Slabo 13px', serif;
   font-size: 13px;
@@ -6,6 +7,7 @@ body {
 }
 
 /* Navbar */
+
 .navbar {
   background-color: #325880;
   display: block;
@@ -24,18 +26,22 @@ body {
 }
 
 /* Quick status section */
+
 .quickstatus {
   padding: 5px 15px 5px 15px;
   text-align: center;
 }
 
 /* Main Table */
+
 #mainTable th {
   font-family: 'Slabo 27px', serif;
   font-size: 18px;
   padding-right: 2em;
 }
+
 /* Table sorting CSS */
+
 th.header {
   background-image: url(/img/sort-up-down.gif);
   background-repeat: no-repeat;
@@ -44,6 +50,7 @@ th.header {
 }
 
 /* Donut chart CSS*/
+
 .legend {
   font-size: 12px;
 }
@@ -77,17 +84,18 @@ rect {
 }
 
 /* Forms */
+
 label.one-line {
   text-align: right;
   margin-top: 5px;
 }
-
 label.two-lines {
   text-align: right;
   margin-top: 0px;
 }
 
 /* Status Box*/
+
 #statusDisplay {
   position: absolute;
   right: 10px;
@@ -100,6 +108,7 @@ label.two-lines {
 }
 
 /* Remove proejct button */
+
 .removeProject {
   opacity: .4;
   margin-right: 1em;
@@ -109,6 +118,53 @@ label.two-lines {
 }
 
 /* Button that enables deletes */
+
 #enableDelete:focus {
   outline: none;
+}
+
+/* For percent raidal charts */
+
+.arc {
+  stroke-weight: 0.1;
+  fill: #4e8fff;
+}
+.arc2 {
+  stroke-weight: 0.1;
+  fill: #3660b0;
+}
+.label {
+  text-anchor: middle;
+}
+.radial-svg {
+  display: inline;
+  margin: 0 auto;
+}
+.background {
+  fill: #FFFFFF;
+  fill-opacity: 0.01;
+}
+.component {
+  fill: #e1e1e1;
+}
+.component .label {
+  font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+  text-anchor: middle;
+  fill: #325880;
+}
+
+.summary-text {
+  font-family: 'Slabo 27px', serif;
+  font-size: 18px;
+}
+
+.summary-text-tiny {
+  font-family: 'Slabo 27px', serif;
+  font-size: 16px;
+}
+
+.summary-text-blue {
+  color: #325880;
+  font-weight: 800;
+  font-size: 30px;
 }

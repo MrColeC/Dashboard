@@ -12,19 +12,22 @@ var buildTable = function() {
     dataType: "json",
     contentType: "application/json",
     success: function(data){
+      var rowCount = 0;
       $.each(data, function(index, object) {
         // Loop over all objects
         tableWorker(object);
+        rowCount++;
       });
 
-      // Now enable the table to be sorted
-      $("#mainTable").tablesorter({sortList: [[4,0],[0,0]]});
-      $("#mainTable").trigger("update");
+      // Only do this if there is data to sort/display
+      if (rowCount > 0) {
+        // Now enable the table to be sorted
+        $("#mainTable").tablesorter({sortList: [[4,0],[0,0]]});
+        $("#mainTable").trigger("update");
 
-      // Update charts
-      pieChart_area();
-      pieChart_date();
-      pieChart_leader();
+        // Update charts
+        make_charts();
+      }
     },
     failure: function(errMsg) {
       console.log(errMsg);
@@ -42,9 +45,7 @@ var addToTable = function(object) {
   $("#mainTable").trigger("update");
 
   // Update charts
-  pieChart_area();
-  pieChart_date();
-  pieChart_leader();
+  make_charts();
 }
 
 // Append to table function
@@ -56,8 +57,8 @@ var tableWorker = function(object) {
   newRow += "<td class='canEdit' pType='members' pID='" + object._id + "'>" + object.members + "</td>";
   newRow += "<td class='project-targetDate canEdit' pType='date' pID='" + object._id + "'>" + object.date + "</td>";
   newRow += "<td class='canEdit' pType='goals' pID='" + object._id + "'>" + object.goals + "</td>";
-  newRow += "<td class='canEdit' pType='software' pID='" + object._id + "'>" + object.software + "</td>";
-  newRow += "<td class='canEdit' pType='effort' pID='" + object._id + "'>" + object.effort + "</td>";
+  newRow += "<td class='canEdit' pType='status' pID='" + object._id + "'>" + object.status + "</td>";
+  newRow += "<td class='canEdit' pType='scheduale' pID='" + object._id + "'>" + object.scheduale + "</td>";
   newRow += "</tr>";
 
   // Append the new row

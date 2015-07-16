@@ -1,4 +1,7 @@
 $(function(){
+  // When the page is first loaded, run these functions only once
+  setDateOptions();
+
   // Click event listener for add modal form submit button
   $("#submit-add-project").click(function() {
     // Create project JSON object
@@ -27,13 +30,13 @@ $(function(){
     } else {
       $('input[name="add-leader"]').parent().removeClass('has-error');
     }
-    project.date = $('input[name="add-date"]').val();
+    project.date = $('select[name="add-date"]').val();
     project.members = $('input[name="add-members"]').val();
     project.goals = $('input[name="add-goals"]').val();
-    project.software = $('input[name="add-software"]').val();
-    project.effort = $('input[name="add-effort"]').val();
+    project.status = $('select[name="add-status"]').val();
+    project.scheduale = $('select[name="add-scheduale"]').val();
     var json = JSON.stringify(project);
-    // console.log("Sending: " + json);
+    console.log("Sending: " + json);
     $.ajax({
       type: "post",
       url: "/do/add",
@@ -47,6 +50,7 @@ $(function(){
         $("#statusDisplay").fadeOut(5000);
         addToTable(data[0]);
         $("#modal-add-project").find("input[type=text]").val("");
+        make_charts();
       },
       failure: function(errMsg) {
         $("#statusDisplay").html("<label class='label label-danger'>Failed to add Project</label>");
@@ -124,26 +128,45 @@ $(function(){
     // Extract
     var display = toCamelCase($(this).attr('pType'));
     if (display == "Goals") {
-      display = "Grant Deliverables";
-    } else if (display == "Software") {
-      display = "Software Requirements";
-    } else if (display == "Effort") {
-      display = "Effort Requirements";
+      display = "Deliverable";
     } else if (display == "Date") {
-      display = "Completion Target";
+      display = "Due Date";
     }
     var tValue = $(this).attr('pType');
     var tID = $(this).attr('pID');
     var current = $(this).html();
-    // console.log("Update request for [" + display + "] which currently has [" + current + "] and an object ID of [" + tID + "]");
+    console.log("Update request for [" + display + "] which currently has [" + current + "] and an object ID of [" + tID + "]");
+
+    // Hide all edit inputs
+    $('#edit-data').addClass('hide');
+    $('#edit-status').addClass('hide');
+    $('#edit-scheduale').addClass('hide');
+    $('#edit-date').addClass('hide');
 
     // Update edit modal to reflect current status and carry required data to submit the edit
     $("#editTarget").html(display);
     $("#editTarget").attr('target-value', tValue);
     $("#editTarget").attr('target-id', tID);
-    $("#edit-data").attr("placeholder", current);
-    $("#edit-data").attr("value",current);
-    // console.log("Value set to " + current);
+
+    // Show the correct edit field & update to default select the current option
+    if (display == "Status") {
+      $('#edit-status').removeClass('hide');
+      // console.log("Editing status data");
+      $("#edit-status").val(current);
+    } else if (display == "Scheduale") {
+      $('#edit-scheduale').removeClass('hide');
+      // console.log("Editing scheduale data");
+      $("#edit-scheduale").val(current);
+    } else if (display == "Due Date") {
+      $('#edit-date').removeClass('hide');
+      // console.log("Editing due date data");
+      $("#edit-date").val(current);
+    } else {
+      $('#edit-data').removeClass('hide');
+      // console.log("Editing basic data");
+      $("#edit-data").attr("placeholder", current);
+      $("#edit-data").val(current);
+    }
 
     // Show the modal
     $('#modal-edit-project').modal('show');
@@ -168,11 +191,65 @@ $(function(){
     });
   }
 
+  // Date functions
+  var validDates = [];
+  function getYear() {
+    var d = new Date();
+    return d.getFullYear();
+  }
+
+  function getQuarter() {
+    var d = new Date();
+    var m = d.getMonth();
+    if (( m >= 0) && (m <= 3)) {
+      return 1;
+    } else if (( m >= 4) && (m <= 6)) {
+      return 2;
+    } else if (( m >= 7) && (m <= 9)) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }
+
+  function getDueDateOptions() {
+    var year = getYear();
+    var currentQ = getQuarter();
+    var quarters = [];
+    var howMuch = 12;
+    var at = 1;
+    while (at <= howMuch) {
+      if (currentQ > 4) {
+        currentQ = 1;
+        year++;
+      }
+      quarters.push(year + " Q" + currentQ);
+      currentQ++;
+      at++;
+    }
+    return quarters;
+  }
+
+  function setDateOptions() {
+    validDates = getDueDateOptions();
+    validDates.forEach(function(item) {
+      $('.populate-with-dates').append("<option>" + item + "</option>");
+      // console.log("Added date option: " + item);
+    });
+  }
+
   // Click event listener for update modal form submit button
   $("#submit-edit-project").click(function() {
     // Pull data from the model
     var target = $("#editTarget").attr('target-value');
     var value = $("#edit-data").val();
+    if (target == "status") {
+      value = $("#edit-status").val();
+    } else if (target == "scheduale") {
+      value = $("#edit-scheduale").val();
+    } else if (target == "date") {
+      value = $("#edit-date").val();
+    }
     var id = $("#editTarget").attr('target-id');
     // console.log("Passed: target[" + target + "] value[" + value + "] from ID[" + id + "]");
 
@@ -193,16 +270,16 @@ $(function(){
       update.date = value;
     } else if (target == "goals") {
       update.goals = value;
-    } else if (target == "software") {
-      update.software = value;
-    } else if (target == "effort") {
-      update.effort = value;
+    } else if (target == "status") {
+      update.status = value;
+    } else if (target == "scheduale") {
+      update.scheduale = value;
     } else {
       console.log("   Unknown update type");
     }
     update.id = id;
     var json = JSON.stringify(update);
-    // console.log("Update JSON being sent: " + json);
+    console.log("Update JSON being sent: " + json);
     $.ajax({
       type: "post",
       url: "/do/update",
@@ -217,6 +294,10 @@ $(function(){
         // Update the display to show the new value now
         // console.log ("Updating item to show: [" + value + "]");
         $(liveEditTarget).html(value);
+        // Clear out the edit text area to help prevent carry forward
+        $("#modal-edit-project").find("input[type=text]").val("");
+
+        make_charts();
       },
       failure: function(errMsg) {
         $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");

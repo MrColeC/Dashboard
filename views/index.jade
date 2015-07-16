@@ -4,16 +4,13 @@ block content
       | Nothing to display
     .row
       <br/><br/><br/><br/>
-      .row.quickstatus
-        .col-xs-12.col-sm-4.placeholder
-          h4 Timelines
-          #pieSummaryDate.charts
-        .col-xs-12.col-sm-4.placeholder
-          h4 Areas
-          #pieSummaryArea.charts
-        .col-xs-12.col-sm-4.placeholder
-          h4 Leaders
-          #pieSummaryLeader.charts
+      #chartArea.row.quickstatus
+        #chart1.col-sm-2.theCharts
+        #chart2.col-sm-2.theCharts
+        #chart3.col-sm-2.theCharts
+        #chart4.col-sm-2.theCharts
+        #chart5.col-sm-2.theCharts
+        #chart6.col-sm-2.theCharts
     .row
       #modal-add-project.modal.fade
         .modal-dialog(role="document")
@@ -38,23 +35,32 @@ block content
                 .form-group
                   label.col-xs-2.one-line Due Date
                   .col-xs-9
-                    input.addProject.form-control(type="text", name="add-date", placeholder="Due Date")
+                    select.populate-with-dates.addProject.form-control(name="add-date")
                 .form-group
                   label.col-xs-2.one-line Members
                   .col-xs-9
                     input.addProject.form-control(type="text", name="add-members", placeholder="Members")
                 .form-group
-                  label.col-xs-2.two-lines Grant Deliverables
+                  label.col-xs-2.two-lines Deliverable
                   .col-xs-9
                     input.addProject.form-control(type="text", name="add-goals", placeholder="Grant Deliverables")
                 .form-group
-                  label.col-xs-2.two-lines Software Requirements
+                  label.col-xs-2.two-lines Status
                   .col-xs-9
-                    input.addProject.form-control(type="text", name="add-software", placeholder="Software Requirements")
+                    select.addProject.form-control(name="add-status")
+                      option Not Started
+                      option Started + Active
+                      option Started + Inactive
+                      option Finished
+                      option On Hold
+                      option Stopped/Cancelled
                 .form-group
-                  label.col-xs-2.two-lines Estimted Effort
+                  label.col-xs-2.two-lines Scheduale
                   .col-xs-9
-                    input.addProject.form-control(type="text", name="add-effort", placeholder="Estimated Effort")
+                    select.addProject.form-control(name="add-scheduale")
+                      option Ahead
+                      option On Track
+                      option Behind
             .modal-footer
               input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-add-project")
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
@@ -69,7 +75,19 @@ block content
                 .form-group
                   label#editTarget.col-xs-2.one-line(target-value="target" target-id="1") Target
                   .col-xs-9
-                    input#edit-data.form-control(type="text", name="edit-data", placeholder="Editing prior data")
+                    input#edit-data.form-control.hide(type="text", name="edit-data", placeholder="Editing prior data")
+                    select#edit-status.form-control.hide(name="edit-status")
+                      option Not Started
+                      option Started + Active
+                      option Started + Inactive
+                      option Finished
+                      option On Hold
+                      option Stopped/Cancelled
+                    select#edit-scheduale.form-control.hide(name="edit-scheduale")
+                      option Ahead
+                      option On Track
+                      option Behind
+                    select#edit-date.populate-with-dates.form-control.hide(name="edit-date")
             .modal-footer
               input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-edit-project")
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
@@ -83,16 +101,15 @@ block content
                 th Name
                 th Leader
                 th Members
-                th Completion Target
-                th Grant Deliverable
-                th Software Requirements
-                th Effort Requirements
+                th Due Date
+                th Deliverable 
+                th Status
+                th Scheduale
               tbody
 
 block js-includes
   script(src='/3rd-party-js/tablesorter-2.0.5.min.js')
-  script(src='/js/summaryPieChart-Date.js')
-  script(src='/js/summaryPieChart-Area.js')
-  script(src='/js/summaryPieChart-Leader.js')
+  script(src='/3rd-party-js/radialProgress.js')
+  script(src='/js/charts.js')
   script(src='/js/project-listeners.js')
   script(src='/js/table.js')
