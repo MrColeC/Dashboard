@@ -58,7 +58,7 @@ var tableWorker = function(object) {
   newRow += "<td class='project-targetDate canEdit' pType='date' pID='" + object._id + "'>" + object.date + "</td>";
   newRow += "<td class='canEdit' pType='goals' pID='" + object._id + "'>" + object.goals + "</td>";
   newRow += "<td class='canEdit' pType='status' pID='" + object._id + "'>" + object.status + "</td>";
-  newRow += "<td class='canEdit' pType='scheduale' pID='" + object._id + "'>" + object.scheduale + "</td>";
+  newRow += "<td class='project-scheduale canEdit' pType='scheduale' pID='" + object._id + "'>" + object.scheduale + "</td>";
   newRow += "</tr>";
 
   // Append the new row

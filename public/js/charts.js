@@ -4,6 +4,7 @@ var make_charts = function() {
   $(".theCharts").empty();
 
   // Data collection
+  // Project areas
   // Determine the total number of projects areas (and count them)
   var areas = [];
   var numberOfAreas = 0;
@@ -38,6 +39,9 @@ var make_charts = function() {
       area_last = area;
     }
   });
+
+  // Data collection
+  // Project leaders
   // Determine the total number of projects leaders
   var leaders = [];
   var leaderRank = [];
@@ -72,7 +76,6 @@ var make_charts = function() {
   leaderObject.leader_name = leader_last;
   leaderObject.count = leader_count;
   leaderRank.push(leaderObject);
-
   // Sort the leader object list
   leaderRank.sort(function(a, b){
     var keyA = a.count,
@@ -83,12 +86,35 @@ var make_charts = function() {
     return 0;
   });
 
+  // Data collection
+  // Project Scheduale
+  var schedualeTotal = 0;
+  var schedualeOnTrack = 0;
+  $(".project-scheduale").each(function(index, item) {
+    schedualeTotal++;
+    if (($(this).html() == "Ahead") || ($(this).html() == "On Track")) {
+      schedualeOnTrack++;
+    }
+  });
+
+  // Data collection
+  // How many projects are due in the coming quarter
+  var quarterNow = validDates[0];
+  var quarterNext = validDates[1];
+  var occurringSoon = 0;
+  $(".project-targetDate").each(function(index, item) {
+    if (($(this).html() == quarterNow) || ($(this).html() == quarterNext)) {
+      occurringSoon++;
+    }
+  });
+
+
   var leaderHTML = "<span class='summary-text'>Top 3 Project Leaders</span>";
   leaderHTML += "<ol>";
   var at = 0;
   var to = 2;
   while (at <= to) {
-      leaderHTML += "<li><span class='summary-text-tiny'>" + leaderRank[at].leader_name + "</span> (" + leaderRank[at].count + ")" +"</li>"
+      leaderHTML += "<li><span class='summary-text-tiny-blue'>" + leaderRank[at].leader_name + "</span> <span class='summary-text-tiny'>(" + leaderRank[at].count + ")" +"</li>"
       at++
   }
   leaderHTML += "</ol>"
@@ -102,16 +128,16 @@ var make_charts = function() {
     .label("Projects on Track")
     .diameter(150)
     .minValue(0)
-    .maxValue(20)
-    .value(16)
+    .maxValue(schedualeTotal)
+    .value(schedualeOnTrack)
     .render();
 
   var rp3 = radialProgress(document.getElementById('chart5'))
     .label("Projects Due Next Quarter")
     .diameter(150)
     .minValue(0)
-    .maxValue(20)
-    .value(3)
+    .maxValue(numberOfAreas)
+    .value(occurringSoon)
     .render();
 
   var rp3 = radialProgress(document.getElementById('chart6'))

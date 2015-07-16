@@ -163,6 +163,12 @@ label.two-lines {
   font-size: 16px;
 }
 
+.summary-text-tiny-blue {
+  font-family: 'Slabo 27px', serif;
+  font-size: 16px;
+  color: #325880;
+}
+
 .summary-text-blue {
   color: #325880;
   font-weight: 800;
