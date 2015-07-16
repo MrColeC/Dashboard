@@ -5,10 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Authentication module.
+var auth = require('http-auth');
+var basic = auth.basic({
+  realm: "Project Management",
+  file: __dirname + "/users.htpasswd"
+});
+
 var routes = require('./routes/index');
 var crud = require('./routes/crud');
 
 var app = express();
+app.use(auth.connect(basic));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
