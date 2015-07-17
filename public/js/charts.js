@@ -85,6 +85,7 @@ var make_charts = function() {
     if(keyA < keyB) return 1;
     return 0;
   });
+  // console.log("There are " + leaderRank.length + " leaders");
 
   // Data collection
   // Project Scheduale
@@ -113,8 +114,9 @@ var make_charts = function() {
   leaderHTML += "<ol>";
   var at = 0;
   var to = 2;
-  if ( (to+1) > leaderRank.lenth) {
-    to = leaderRank.length;
+  if ( to >= leaderRank.length) {
+    to = (leaderRank.length)-1;
+    // console.log("There are too few leaders- instaed of top 3, showing top " + to);
   }
   while (at <= to) {
       leaderHTML += "<li><span class='summary-text-tiny-blue'>" + leaderRank[at].leader_name + "</span> <span class='summary-text-tiny'>(" + leaderRank[at].count + ")" +"</li>"
