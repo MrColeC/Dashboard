@@ -12,6 +12,11 @@ var make_charts = function() {
     areas.push(item.innerHTML);
     numberOfAreas++;
   });
+  // Abort making any graphs if there is no data
+  if (numberOfAreas < 1) {
+    console.log("No data -> nothing to chart");
+    return;
+  }
   // Determine what project area has the most projects
   areas.sort();
   var area_last = "start";
@@ -39,6 +44,10 @@ var make_charts = function() {
       area_last = area;
     }
   });
+  if ((area_countLeader == "No Projects") && (area_last != "start")) {
+    area_countLeader = area_last;
+    area_countMax = area_count;
+  }
 
   // Data collection
   // Project leaders

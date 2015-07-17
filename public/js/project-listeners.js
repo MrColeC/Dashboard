@@ -96,7 +96,7 @@ $(function(){
     prep.id = $(this).val();
     var json = JSON.stringify(prep);
     // console.log("Sending :" + json);
-    $(this).parent().parent().fadeOut();
+    $(this).parent().parent().remove();
     $.ajax({
       type: "delete",
       url: "/do/del",
@@ -104,6 +104,7 @@ $(function(){
       data: json,
       contentType: "application/json",
       success: function(data){
+        make_charts();
         $("#statusDisplay").html("<label class='label label-success'>Project Removed</label>");
         $("#statusDisplay").removeClass("hide");
         $("#statusDisplay").fadeOut(5000);
@@ -249,7 +250,6 @@ $(function(){
         $(liveEditTarget).html(value);
         // Clear out the edit text area to help prevent carry forward
         $("#modal-edit-project").find("input[type=text]").val("");
-
         make_charts();
       },
       failure: function(errMsg) {
