@@ -113,6 +113,9 @@ var make_charts = function() {
   leaderHTML += "<ol>";
   var at = 0;
   var to = 2;
+  if ( (to+1) > leaderRank.lenth) {
+    to = leaderRank.length;
+  }
   while (at <= to) {
       leaderHTML += "<li><span class='summary-text-tiny-blue'>" + leaderRank[at].leader_name + "</span> <span class='summary-text-tiny'>(" + leaderRank[at].count + ")" +"</li>"
       at++
