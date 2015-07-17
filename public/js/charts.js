@@ -133,7 +133,7 @@ var make_charts = function() {
     .render();
 
   var rp3 = radialProgress(document.getElementById('chart5'))
-    .label("Projects Due Next Quarter")
+    .label("Projects Due by " + quarterNext)
     .diameter(150)
     .minValue(0)
     .maxValue(numberOfAreas)
@@ -141,10 +141,10 @@ var make_charts = function() {
     .render();
 
   var rp3 = radialProgress(document.getElementById('chart6'))
-    .label("Remaining Time")
+    .label("Remaining Time in Q" + getQuarter())
     .diameter(150)
     .minValue(0)
-    .maxValue(90)
-    .value(45)
+    .maxValue(getTimeRemaining('total'))
+    .value(getTimeRemaining())
     .render();
 };
