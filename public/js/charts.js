@@ -110,10 +110,9 @@ var make_charts = function() {
   // Data collection
   // How many projects are due in the coming quarter
   var quarterNow = validDates[0];
-  var quarterNext = validDates[1];
   var occurringSoon = 0;
   $(".project-targetDate").each(function(index, item) {
-    if (($(this).html() == quarterNow) || ($(this).html() == quarterNext)) {
+    if ($(this).html() == quarterNow) {
       occurringSoon++;
     }
   });
@@ -147,7 +146,7 @@ var make_charts = function() {
     .render();
 
   var rp3 = radialProgress(document.getElementById('chart5'))
-    .label("Projects Due by " + quarterNext)
+    .label("Projects Due in " + quarterNow)
     .diameter(150)
     .minValue(0)
     .maxValue(numberOfAreas)
