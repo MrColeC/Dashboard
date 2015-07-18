@@ -117,11 +117,10 @@ var make_charts = function() {
     }
   });
 
-
-  var leaderHTML = "<span class='summary-text'>Top 3 Project Leaders</span>";
-  leaderHTML += "<ol>";
   var at = 0;
-  var to = 2;
+  var to = 5;
+  var leaderHTML = "<span class='summary-text'>Top " + to + " Project Leaders</span>";
+  leaderHTML += "<ol>";
   if ( to >= leaderRank.length) {
     to = (leaderRank.length)-1;
     // console.log("There are too few leaders- instaed of top 3, showing top " + to);
