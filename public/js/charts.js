@@ -125,7 +125,7 @@ var make_charts = function() {
     to = (leaderRank.length)-1;
     // console.log("There are too few leaders- instaed of top 3, showing top " + to);
   }
-  while (at <= to) {
+  while (at < to) {
       leaderHTML += "<li><span class='summary-text-tiny-blue'>" + leaderRank[at].leader_name + "</span> <span class='summary-text-tiny'>(" + leaderRank[at].count + ")" +"</li>"
       at++
   }
