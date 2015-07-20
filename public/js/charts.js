@@ -7,6 +7,7 @@ var make_charts = function() {
   // Project areas
   // Determine the total number of projects areas (and count them)
   var areas = [];
+  var areasRanked = [];
   var numberOfAreas = 0;
   $(".project-area").each(function(index, item) {
     areas.push(item.innerHTML);
@@ -21,8 +22,6 @@ var make_charts = function() {
   areas.sort();
   var area_last = "start";
   var area_count = 0;
-  var area_countMax = 0;
-  var area_countLeader = "No Projects";
   areas.forEach(function(area) {
     if ((area_last == "start") && (area_count == 0)) {
       // Handle the start case
@@ -31,23 +30,31 @@ var make_charts = function() {
     } else if (area_last == area) {
       // Item is the same, keep counting
       area_count++;
-      if (area_count > area_countMax) {
-        area_countMax = area_count;
-        area_countLeader = area_last;
-      }
     } else {
-      if (area_count > area_countMax) {
-        area_countMax = area_count;
-        area_countLeader = area_last;
-      }
+      // Load the data into the array of object, start tracking the new leader
+      var leaderObject = {};
+      areaObject.area_name = area_last;
+      areaObject.count = area_count;
+      areasRanked.push(areaObject);
+
       area_count = 1;
       area_last = area;
     }
   });
-  if ((area_countLeader == "No Projects") && (area_last != "start")) {
-    area_countLeader = area_last;
-    area_countMax = area_count;
-  }
+  // Handle (save) whatever was leader_last
+  var areaObject = {};
+  areaObject.area_name = area_last;
+  areaObject.count = area_count;
+  areasRanked.push(areaObject);
+  // Sort the leader object list
+  areasRanked.sort(function(a, b){
+    var keyA = a.count,
+    keyB = b.count;
+    // console.log("Comparing " + JSON.stringify(a) + " to " + JSON.stringify(b));
+    if(keyA > keyB) return -1;
+    if(keyA < keyB) return 1;
+    return 0;
+  });
 
   // Data collection
   // Project leaders
@@ -117,15 +124,35 @@ var make_charts = function() {
     }
   });
 
+  // Common setup
   var at = 0;
-  var to = 5;
-  var leaderHTML = "<span class='summary-text'>Top " + to + " Project Leaders</span>";
-  leaderHTML += "<ol>";
-  if ( to >= leaderRank.length) {
-    to = (leaderRank.length)-1;
+  var toArea = 5;
+  var toLeader = 5;
+
+  // Area html
+  var areaHTML = "<span class='summary-text'>Top " + toArea + " Project Areas</span>";
+  areaHTML += "<ol>";
+  if ( toArea >= areasRanked.length) {
+    toArea = areasRanked.length;
     // console.log("There are too few leaders- instaed of top 3, showing top " + to);
   }
-  while (at < to) {
+  while (at < toArea) {
+      areaHTML += "<li><span class='summary-text-tiny-blue'>" + areasRanked[at].area_name + "</span> <span class='summary-text-tiny'>(" + areasRanked[at].count + ")" +"</li>"
+      at++
+  }
+  areaHTML += "</ol>"
+
+  // Reset
+  at = 0;
+
+  // Leader html
+  if ( toLeader >= leaderRank.length) {
+    toLeader = leaderRank.length;
+    // console.log("There are too few leaders- instaed of top 3, showing top " + to);
+  }
+  var leaderHTML = "<span class='summary-text'>Top " + toLeader + " Project Leaders</span>";
+  leaderHTML += "<ol>";
+  while (at < toLeader) {
       leaderHTML += "<li><span class='summary-text-tiny-blue'>" + leaderRank[at].leader_name + "</span> <span class='summary-text-tiny'>(" + leaderRank[at].count + ")" +"</li>"
       at++
   }
@@ -133,7 +160,7 @@ var make_charts = function() {
 
   // Build charts
   $('#chart1').html("<br><span class='summary-text'>Number of Projects:</span><br><span class='summary-text-blue'>" + numberOfAreas + "</span>");
-  $('#chart2').html("<span class='summary-text-blue'>" + area_countLeader + "</span> <span class='summary-text'>has the most projects with</span> <span class='summary-text-blue'>" + area_countMax + "</span>");
+  $('#chart2').html(areaHTML);
   $('#chart3').html(leaderHTML);
 
   var rp3 = radialProgress(document.getElementById('chart4'))
