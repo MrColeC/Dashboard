@@ -32,7 +32,7 @@ var make_charts = function() {
       area_count++;
     } else {
       // Load the data into the array of object, start tracking the new leader
-      var leaderObject = {};
+      var areaObject = {};
       areaObject.area_name = area_last;
       areaObject.count = area_count;
       areasRanked.push(areaObject);
