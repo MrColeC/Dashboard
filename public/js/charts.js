@@ -164,7 +164,7 @@ var make_charts = function() {
   $('#chart3').html(leaderHTML);
 
   var rp3 = radialProgress(document.getElementById('chart4'))
-    .label("Projects on Track")
+    .label("Projects on Schedule")
     .diameter(150)
     .minValue(0)
     .maxValue(schedualeTotal)
