@@ -87,7 +87,8 @@ rect {
 
 label.one-line {
   text-align: right;
-  margin-top: 5px;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 label.two-lines {
   text-align: right;
