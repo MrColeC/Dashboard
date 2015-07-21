@@ -59,6 +59,11 @@ var tableWorker = function(object) {
   newRow += "<td class='canEdit' pType='goals' pID='" + object._id + "'>" + object.goals + "</td>";
   newRow += "<td class='canEdit' pType='status' pID='" + object._id + "'>" + object.status + "</td>";
   newRow += "<td class='project-scheduale canEdit' pType='scheduale' pID='" + object._id + "'>" + object.scheduale + "</td>";
+  if (object.link) {
+    newRow += "<td class='canEdit' pType='link' pID='" + object._id + "' link-value='" + object.link + "'><a href='" + object.link + "'>Link</a></td>";
+  } else {
+    newRow += "<td class='canEdit' pType='link' pID='" + object._id + "'></td>";
+  }
   newRow += "</tr>";
 
   // Append the new row

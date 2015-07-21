@@ -41,11 +41,15 @@ block content
                   .col-xs-9
                     input.addProject.form-control(type="text", name="add-members", placeholder="Members")
                 .form-group
-                  label.col-xs-2.two-lines Deliverable
+                  label.col-xs-2.one-line Deliverable
                   .col-xs-9
-                    input.addProject.form-control(type="text", name="add-goals", placeholder="Grant Deliverables")
+                    input.addProject.form-control(type="text", name="add-goals", placeholder="Deliverable")
                 .form-group
-                  label.col-xs-2.two-lines Status
+                  label.col-xs-2.one-line Link
+                  .col-xs-9
+                    input.addProject.form-control(type="text", name="add-link", placeholder="A link to more details about this project")
+                .form-group
+                  label.col-xs-2.one-line Status
                   .col-xs-9
                     select.addProject.form-control(name="add-status")
                       option Not Started
@@ -53,9 +57,10 @@ block content
                       option Started + Inactive
                       option Finished
                       option On Hold
+                      option Ongoing
                       option Stopped/Cancelled
                 .form-group
-                  label.col-xs-2.two-lines Scheduale
+                  label.col-xs-2.one-line Scheduale
                   .col-xs-9
                     select.addProject.form-control(name="add-scheduale")
                       option Ahead
@@ -82,6 +87,7 @@ block content
                       option Started + Inactive
                       option Finished
                       option On Hold
+                      option Ongoing
                       option Stopped/Cancelled
                     select#edit-scheduale.form-control.hide(name="edit-scheduale")
                       option Ahead
@@ -104,7 +110,9 @@ block content
                 th Due Date
                 th Deliverable 
                 th Status
-                th Scheduale
+                th Schedule
+                th Link
+                th Discuss
               tbody
 
 block js-includes

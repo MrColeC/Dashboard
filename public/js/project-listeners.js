@@ -35,6 +35,7 @@ $(function(){
     project.goals = $('input[name="add-goals"]').val();
     project.status = $('select[name="add-status"]').val();
     project.scheduale = $('select[name="add-scheduale"]').val();
+    project.link = $('select[name="add-link"]').val();
     var json = JSON.stringify(project);
     console.log("Sending: " + json);
     $.ajax({
@@ -136,6 +137,10 @@ $(function(){
     var tValue = $(this).attr('pType');
     var tID = $(this).attr('pID');
     var current = $(this).html();
+    if (display == "Link") {
+      // Instead, display the value of the HREF and not the constructed HTML
+      current = $(this).attr('link-value');
+    }
     console.log("Update request for [" + display + "] which currently has [" + current + "] and an object ID of [" + tID + "]");
 
     // Hide all edit inputs
@@ -213,13 +218,13 @@ $(function(){
     // However, since all users can edit and see all items (no RBAC) this is a moot point
     var update = {};
     if (target == "area") {
-      update.area = value;
+      update.area = toCamelCase(value);
     } else if (target == "name") {
       update.name = value;
     } else if (target == "leader") {
-      update.leader = value;
+      update.leader = toCamelCase(value);
     } else if (target == "members") {
-      update.members = value;
+      update.members = toCamelCase(value);
     } else if (target == "date") {
       update.date = value;
     } else if (target == "goals") {
@@ -228,6 +233,8 @@ $(function(){
       update.status = value;
     } else if (target == "scheduale") {
       update.scheduale = value;
+    } else if (target == "link") {
+      update.link = value;
     } else {
       console.log("   Unknown update type");
     }
