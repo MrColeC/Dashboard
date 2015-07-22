@@ -13,7 +13,6 @@ body {
   display: block;
   color: white !important;
   padding-right: 30px;
-  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 18px;
 }
@@ -35,7 +34,6 @@ body {
 /* Main Table */
 
 #mainTable th {
-  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   padding-right: 2em;
   line-height: 8px;
@@ -157,18 +155,15 @@ label.two-lines {
 }
 
 .summary-text {
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .summary-text-tiny {
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .summary-text-tiny-blue {
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #325880;
 }
 
