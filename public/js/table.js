@@ -21,8 +21,27 @@ var buildTable = function() {
 
       // Only do this if there is data to sort/display
       if (rowCount > 0) {
-        // Now enable the table to be sorted
-        $("#mainTable").tablesorter({sortList: [[4,0],[0,0]]});
+        // Enable the table to be sorted
+        $("#mainTable").tablesorter({
+          sortList: [[4,0],[0,0]],
+          textExtraction: function(node) {
+            if (node.className.indexOf('linkItem') > -1 ) {
+              // console.log("Link item with value of " + node.getAttribute("link-value"));
+              // Return link data
+              return node.getAttribute("link-value");
+            } else if (node.className.indexOf('discussItem') > -1 ) {
+              // console.log("Discuss item with value of " + node.getAttribute("discuss-value"));
+              // Return true/flase of flag
+              return node.getAttribute("discuss-value");
+            }
+            else {
+              // Return regular HTML to perform alphabetic sort
+              return node.innerHTML;
+            }
+          }
+        });
+
+        // Update sort & bind new content
         $("#mainTable").trigger("update");
 
         // Update charts
@@ -60,9 +79,18 @@ var tableWorker = function(object) {
   newRow += "<td class='canEdit' pType='status' pID='" + object._id + "'>" + object.status + "</td>";
   newRow += "<td class='project-scheduale canEdit' pType='scheduale' pID='" + object._id + "'>" + object.scheduale + "</td>";
   if (object.link) {
-    newRow += "<td class='canEdit' pType='link' pID='" + object._id + "' link-value='" + object.link + "'><a href='" + object.link + "'>Link</a></td>";
+    newRow += "<td><span style='margin-right: 1em;' class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.link + "'></span> <a href='" + object.link + "' target='_blank'> <span class='glyphicon glyphicon-duplicate' aria-hidden='true'></span></a></td>";
   } else {
-    newRow += "<td class='canEdit' pType='link' pID='" + object._id + "'></td>";
+    newRow += "<td><span class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.link + "'></span></td>";
+  }
+  if (object.discuss) {
+    if (object.discuss == "true") {
+        newRow += "<td style='text-align: center;' class='canEdit discussItem' pType='discuss' pID='" + object._id + "' discuss-value='true'><span class=' glyphicon glyphicon-glyphicon glyphicon-flag' aria-hidden='true' ></span></td>";
+    } else {
+      newRow += "<td style='text-align: center;' class='canEdit discussItem' pType='discuss' pID='" + object._id + "' discuss-value='false'><span class='noFlag glyphicon glyphicon-glyphicon glyphicon-flag' aria-hidden='true'></span></td>";
+    }
+  } else {
+    newRow += "<td style='text-align: center;' class='canEdit discussItem' pType='discuss' pID='" + object._id + "' discuss-value='false'><span class='noFlag glyphicon glyphicon-glyphicon glyphicon-flag' aria-hidden='true'></span></td>";
   }
   newRow += "</tr>";
 

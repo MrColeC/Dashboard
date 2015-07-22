@@ -36,8 +36,10 @@ body {
 
 #mainTable th {
   font-family: 'Slabo 27px', serif;
-  font-size: 18px;
+  font-size: 16px;
   padding-right: 2em;
+  line-height: 8px;
+  color: #325880;
 }
 
 /* Table sorting CSS */
@@ -174,4 +176,18 @@ label.two-lines {
   color: #325880;
   font-weight: 800;
   font-size: 30px;
+}
+
+/* For the discussion flag*/
+.noFlag {
+  opacity: .1;
+}
+.glyphicon-flag {
+  color: #009900;
+}
+
+/* Link note */
+#linkNote {
+  padding-top: 8px;
+  color: #888;
 }

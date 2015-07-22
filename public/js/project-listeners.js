@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
   // When the page is first loaded, run these functions only once
   setDateOptions();
 
@@ -44,7 +44,7 @@ $(function(){
       dataType: "json",
       data: json,
       contentType: "application/json",
-      success: function(data){
+      success: function(data) {
         console.log("Receieved back from add request: " + JSON.stringify(data));
         $("#statusDisplay").html("<label class='label label-success'>Project Added</label>");
         $("#statusDisplay").removeClass("hide");
@@ -63,9 +63,9 @@ $(function(){
   });
 
   // Have enter keys fire click event - add project
-  $('.addProject').keypress(function (e) {
+  $('.addProject').keypress(function(e) {
     var key = e.which;
-    if(key == 13)  // the enter key code
+    if (key == 13) // the enter key code
     {
       $("#submit-add-project").click();
       return false;
@@ -73,9 +73,9 @@ $(function(){
   });
 
   // Have enter keys fire click event - edit project
-  $('#edit-data').keypress(function (e) {
+  $('#edit-data').keypress(function(e) {
     var key = e.which;
-    if(key == 13)  // the enter key code
+    if (key == 13) // the enter key code
     {
       $("#submit-edit-project").click();
       return false;
@@ -97,14 +97,14 @@ $(function(){
     prep.id = $(this).val();
     var json = JSON.stringify(prep);
     // console.log("Sending :" + json);
-    $(this).parent().parent().remove();
+    $(this).parents("tr").remove();
     $.ajax({
       type: "delete",
       url: "/do/del",
       dataType: "json",
       data: json,
       contentType: "application/json",
-      success: function(data){
+      success: function(data) {
         make_charts();
         $("#statusDisplay").html("<label class='label label-success'>Project Removed</label>");
         $("#statusDisplay").removeClass("hide");
@@ -140,6 +140,20 @@ $(function(){
     if (display == "Link") {
       // Instead, display the value of the HREF and not the constructed HTML
       current = $(this).attr('link-value');
+    } else if (display == "Discuss") {
+      current = $(this).attr('discuss-value');
+      var update = {};
+      update.id = tID;
+      if (current == "false") {
+        // Toggle false to true
+        update.discuss = "true";
+      } else {
+        // Set to false
+        update.discuss = "false";
+      }
+      var json = JSON.stringify(update);
+      updateDatabase(json, "discuss", update.discuss);
+      return;
     }
     console.log("Update request for [" + display + "] which currently has [" + current + "] and an object ID of [" + tID + "]");
 
@@ -148,6 +162,7 @@ $(function(){
     $('#edit-status').addClass('hide');
     $('#edit-scheduale').addClass('hide');
     $('#edit-date').addClass('hide');
+    $('#linkNote').addClass('hide');
 
     // Update edit modal to reflect current status and carry required data to submit the edit
     $("#editTarget").html(display);
@@ -168,6 +183,10 @@ $(function(){
       // console.log("Editing due date data");
       $("#edit-date").val(current);
     } else {
+      if (display == "Link") {
+        // Display a helpful note
+        $('#linkNote').removeClass('hide');
+      }
       $('#edit-data').removeClass('hide');
       // console.log("Editing basic data");
       $("#edit-data").attr("placeholder", current);
@@ -179,13 +198,13 @@ $(function(){
   });
 
   // When the modal is show - focus the first element
-  $('#modal-edit-project').on('shown.bs.modal', function () {
+  $('#modal-edit-project').on('shown.bs.modal', function() {
     $('#edit-data').focus();
     var moveCursor = $('#edit-data');
     var end = moveCursor.val().length * 2;
-    moveCursor[0].setSelectionRange(end,end);
+    moveCursor[0].setSelectionRange(end, end);
   });
-  $('#modal-add-project').on('shown.bs.modal', function () {
+  $('#modal-add-project').on('shown.bs.modal', function() {
     $('#add-area').focus();
   });
 
@@ -194,6 +213,54 @@ $(function(){
   function toCamelCase(str) {
     return str.replace(/(?:^|\s)\w/g, function(match) {
       return match.toUpperCase();
+    });
+  }
+
+  // Performs the update to the backend
+  // Passed a JSON object that has the new fields to be set as well as the ID of the target
+  function updateDatabase(json, target, value) {
+    var remakeObject = JSON.parse(json);
+    $.ajax({
+      type: "post",
+      url: "/do/update",
+      dataType: "html",
+      data: json,
+      contentType: "application/json",
+      success: function(data) {
+        $("#statusDisplay").html("<label class='label label-success'>Project Updated</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
+
+        // Update the display to show the new value now
+        if (target == "link") {
+          // Update the assocaited values
+          // TODO
+          console.log("TODO - update link");
+          return;
+        } else if (target == "discuss") {
+          // TODO update discuss
+          console.log("Updating the discussion status of " + remakeObject.id + " to " + remakeObject.discuss);
+          $(liveEditTarget).attr("discuss-value", remakeObject.discuss);
+          if (remakeObject.discuss == "true") {
+            $(liveEditTarget).children().removeClass("noFlag");
+          } else {
+            $(liveEditTarget).children().addClass("noFlag");
+          }
+          return;
+        } else {
+          // Update the display to match the new content
+          $(liveEditTarget).html(value);
+        }
+        // Clear out the edit text area to help prevent carry forward
+        $("#modal-edit-project").find("input[type=text]").val("");
+        make_charts();
+      },
+      failure: function(errMsg) {
+        $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");
+        $("#statusDisplay").removeClass("hide");
+        $("#statusDisplay").fadeOut(5000);
+        console.log(errMsg);
+      }
     });
   }
 
@@ -240,34 +307,11 @@ $(function(){
     }
     update.id = id;
     var json = JSON.stringify(update);
-    console.log("Update JSON being sent: " + json);
-    $.ajax({
-      type: "post",
-      url: "/do/update",
-      dataType: "html",
-      data: json,
-      contentType: "application/json",
-      success: function(data){
-        $("#statusDisplay").html("<label class='label label-success'>Project Updated</label>");
-        $("#statusDisplay").removeClass("hide");
-        $("#statusDisplay").fadeOut(5000);
-
-        // Update the display to show the new value now
-        // console.log ("Updating item to show: [" + value + "]");
-        $(liveEditTarget).html(value);
-        // Clear out the edit text area to help prevent carry forward
-        $("#modal-edit-project").find("input[type=text]").val("");
-        make_charts();
-      },
-      failure: function(errMsg) {
-        $("#statusDisplay").html("<label class='label label-danger'>Failed to update Project</label>");
-        $("#statusDisplay").removeClass("hide");
-        $("#statusDisplay").fadeOut(5000);
-        console.log(errMsg);
-      }
-    });
+    // console.log("Update JSON being sent: " + json);
+    updateDatabase(json, target, value);
   });
 
+  // Toggles the dleete feature
   $("#enableDelete").click(function() {
     // This is computed before the default event handler can active the button, so invert logic
     if ($("#enableDelete").hasClass('active')) {

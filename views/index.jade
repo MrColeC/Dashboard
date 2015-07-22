@@ -95,6 +95,7 @@ block content
                       option Behind
                     select#edit-date.populate-with-dates.form-control.hide(name="edit-date")
             .modal-footer
+              #linkNote.pull-left Remember to add "http://" or "https://" to the front of your link
               input.btn.btn-success(type="submit" value="Submit" data-dismiss="modal" id="submit-edit-project")
               button.btn.btn-default(type="button" data-dismiss="modal") Cancel
     .row
@@ -107,7 +108,7 @@ block content
                 th Name
                 th Leader
                 th Members
-                th Due Date
+                th Due
                 th Deliverable 
                 th Status
                 th Schedule
