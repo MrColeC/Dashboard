@@ -1,8 +1,8 @@
 /* All */
 
 body {
-  font-family: 'Slabo 13px', serif;
-  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
   overflow-x: hidden;
 }
 
@@ -13,7 +13,7 @@ body {
   display: block;
   color: white !important;
   padding-right: 30px;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 18px;
 }
@@ -35,7 +35,7 @@ body {
 /* Main Table */
 
 #mainTable th {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   padding-right: 2em;
   line-height: 8px;
@@ -157,17 +157,17 @@ label.two-lines {
 }
 
 .summary-text {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 18px;
 }
 
 .summary-text-tiny {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
 }
 
 .summary-text-tiny-blue {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: #325880;
 }
