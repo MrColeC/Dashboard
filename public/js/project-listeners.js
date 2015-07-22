@@ -236,6 +236,9 @@ $(function() {
           // Update the assocaited values
           // TODO
           console.log("TODO - update link");
+          $(liveEditTarget).attr('link-value',value);
+          $(liveEditTarget).parent().children('a').addClass('hide');
+          $(liveEditTarget).parent().append("<a href='" + value + "' target='_blank'> <span class='glyphicon glyphicon-duplicate' aria-hidden='true'></span></a>");
           return;
         } else if (target == "discuss") {
           // TODO update discuss

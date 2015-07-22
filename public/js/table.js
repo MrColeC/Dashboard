@@ -81,7 +81,7 @@ var tableWorker = function(object) {
   if (object.link) {
     newRow += "<td><span style='margin-right: 1em;' class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.link + "'></span> <a href='" + object.link + "' target='_blank'> <span class='glyphicon glyphicon-duplicate' aria-hidden='true'></span></a></td>";
   } else {
-    newRow += "<td><span class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.link + "'></span></td>";
+    newRow += "<td><span style='margin-right: 1em;' class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.link + "'></span></td>";
   }
   if (object.discuss) {
     if (object.discuss == "true") {
