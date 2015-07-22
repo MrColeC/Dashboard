@@ -239,6 +239,10 @@ $(function() {
           $(liveEditTarget).attr('link-value',value);
           $(liveEditTarget).parent().children('a').addClass('hide');
           $(liveEditTarget).parent().append("<a href='" + value + "' target='_blank'> <span class='glyphicon glyphicon-duplicate' aria-hidden='true'></span></a>");
+
+          // Toggle update to sorting
+          $("#mainTable").trigger("update");
+
           return;
         } else if (target == "discuss") {
           // TODO update discuss
@@ -249,6 +253,10 @@ $(function() {
           } else {
             $(liveEditTarget).children().addClass("noFlag");
           }
+
+          // Toggle update to sorting
+          $("#mainTable").trigger("update");
+
           return;
         } else {
           // Update the display to match the new content
@@ -256,6 +264,10 @@ $(function() {
         }
         // Clear out the edit text area to help prevent carry forward
         $("#modal-edit-project").find("input[type=text]").val("");
+
+        // Toggle update to sorting
+        $("#mainTable").trigger("update");
+        
         make_charts();
       },
       failure: function(errMsg) {
