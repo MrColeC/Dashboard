@@ -45,10 +45,6 @@ function getTimeRemaining(mode) {
     qe = 11;
   }
 
-  // After we calulate what range we are in, we need to add one to the month
-  // So it can accurately depict the month we are in
-  m++;
-
   var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
   var start = new Date(y,qs,1);
   var current = new Date(y,m,d);
@@ -60,14 +56,13 @@ function getTimeRemaining(mode) {
   }
   var end = new Date(y,qe,month_ends_on);
 
-
   // Check if variable exists
   if (mode) {
     // Return total number of days in the quarter
     if (mode == 'total') {
       var days = Math.round(Math.abs((end.getTime() - start.getTime())/(oneDay)));
       if (limit_date_data_display < 2) {
-        console.log("It is " + y + "/" + m + "/" + d + " and the quarter started in " + (qs+1) + "/1 and will end on " + (qe+1) + "/" + month_ends_on);
+        console.log("It is " + (m+1) + "/" + d + " and the quarter started in " + (qs+1) + "/1 and will end on " + (qe+1) + "/" + month_ends_on);
         console.log("There are a total of " + days + " days in this quarter.");
         limit_date_data_display++;
       }
