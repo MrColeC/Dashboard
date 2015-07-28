@@ -163,6 +163,7 @@ var make_charts = function() {
   $('#chart2').html(areaHTML);
   $('#chart3').html(leaderHTML);
 
+  var scheduale_percent = ((schedualeOnTrack/schedualeTotal) * 100);
   var rp3 = radialProgress(document.getElementById('chart4'))
     .label("Projects on Schedule")
     .diameter(150)
@@ -170,6 +171,13 @@ var make_charts = function() {
     .maxValue(schedualeTotal)
     .value(schedualeOnTrack)
     .render();
+  if (scheduale_percent >= 60) {
+    $('#chart4').find('.arc').attr('class', 'arc arc-green');
+  } else if (scheduale_percent >= 30) {
+    $('#chart4').find('.arc').attr('class', 'arc arc-yellow');
+  } else {
+    $('#chart4').find('.arc').attr('class', 'arc arc-red');
+  }
 
   var rp3 = radialProgress(document.getElementById('chart5'))
     .label("Projects Due in " + quarterNow)
@@ -179,11 +187,21 @@ var make_charts = function() {
     .value(occurringSoon)
     .render();
 
+  var days_remaining = getTimeRemaining();
+  var days_total = getTimeRemaining('total');
+  var remaining_percent = ((days_remaining / days_total) * 100);
   var rp3 = radialProgress(document.getElementById('chart6'))
     .label("Remaining Time in Q" + getQuarter())
     .diameter(150)
     .minValue(0)
-    .maxValue(getTimeRemaining('total'))
-    .value(getTimeRemaining())
+    .maxValue(days_total)
+    .value(days_remaining)
     .render();
+  if (remaining_percent >= 60) {
+    $('#chart6').find('.arc').attr('class', 'arc arc-green');
+  } else if (remaining_percent >= 30) {
+    $('#chart6').find('.arc').attr('class', 'arc arc-yellow');
+  } else {
+    $('#chart6').find('.arc').attr('class', 'arc arc-red');
+  }
 };

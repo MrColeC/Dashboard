@@ -130,6 +130,22 @@ label.two-lines {
   stroke-weight: 0.1;
   fill: #4e8fff;
 }
+
+.arc-green {
+  stroke-weight: 0.1;
+  fill: #4cae4c;
+}
+
+.arc-yellow {
+  stroke-weight: 0.1;
+  fill: #eea236;
+}
+
+.arc-red {
+  stroke-weight: 0.1;
+  fill: #d43f3a;
+}
+
 .arc2 {
   stroke-weight: 0.1;
   fill: #3660b0;
