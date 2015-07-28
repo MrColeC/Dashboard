@@ -19,6 +19,9 @@ function getQuarter() {
   }
 }
 
+// USed to limit the verbosity of the console logging
+var limit_date_data_display = 0;
+
 // Mode: pass 'total' to get total number of days in the quater; days remaining is returned
 function getTimeRemaining(mode) {
   var date = new Date();
@@ -56,15 +59,21 @@ function getTimeRemaining(mode) {
     // Return total number of days in the quarter
     if (mode == 'total') {
       var days = Math.round(Math.abs((end.getTime() - start.getTime())/(oneDay)));
-      // console.log("It is " + y + "/" + m + "/" + d + " and the quarter started in " + qs + "/1 and will end on " + qe + "/31");
-      // console.log("There are a total of " + days + " days in this quarter.");
+      if (limit_date_data_display < 2) {
+        console.log("It is " + y + "/" + m + "/" + d + " and the quarter started in " + qs + "/1 and will end on " + qe + "/31");
+        console.log("There are a total of " + days + " days in this quarter.");
+        limit_date_data_display++;
+      }
       return days;
     }
   }
 
   // Return the number of days until the end of the quarter
   var days = Math.round(Math.abs((end.getTime() - current.getTime())/(oneDay)));
-  // console.log(days + " days remain in this quarter.");
+  if (limit_date_data_display < 2) {
+    console.log(days + " days remain in this quarter.");
+    limit_date_data_display++;
+  }
   return days;
 }
 
