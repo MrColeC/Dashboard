@@ -33,7 +33,7 @@ function getTimeRemaining(mode) {
   // Make the quarter start in January, April, July & October
   // Make the quarter end 3 months later
   var qs = 0;
-  var qe = 3
+  var qe = 2
   if (( m >= 3) && (m <= 5)) {
     qs = 3;
     qe = 5;
@@ -52,7 +52,14 @@ function getTimeRemaining(mode) {
   var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
   var start = new Date(y,qs,1);
   var current = new Date(y,m,d);
-  var end = new Date(y,qe,31);
+  // March & December have 31 days
+  var month_ends_on = 31;
+  // Jume & September have 30
+  if ((qe == 2) || (qe == 8)) {
+    month_ends_on = 30;
+  }
+  var end = new Date(y,qe,month_ends_on);
+
 
   // Check if variable exists
   if (mode) {
@@ -60,7 +67,7 @@ function getTimeRemaining(mode) {
     if (mode == 'total') {
       var days = Math.round(Math.abs((end.getTime() - start.getTime())/(oneDay)));
       if (limit_date_data_display < 2) {
-        console.log("It is " + y + "/" + m + "/" + d + " and the quarter started in " + qs + "/1 and will end on " + qe + "/31");
+        console.log("It is " + y + "/" + m + "/" + d + " and the quarter started in " + (qs+1) + "/1 and will end on " + (qe+1) + "/" + month_ends_on);
         console.log("There are a total of " + days + " days in this quarter.");
         limit_date_data_display++;
       }
