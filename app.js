@@ -20,7 +20,7 @@ app.use(auth.connect(basic));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(express.static('public'));
 app.use(logger('dev'));
